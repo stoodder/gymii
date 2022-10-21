@@ -2,29 +2,21 @@
   <div>
     <Header />
     Hello World
-    <button @click="increment">
-      Count is: {{ count }}
-    </button>
+    <button @click="callApi">Call API</button>
   </div>
 </template>
 
 <script lang="ts">
-type Data = {
-  count: number;
-};
+import TestService from "@/services/TestService";
 
 export default {
   name: 'App',
 
-  data(): Data {
-    return {
-      count: 0
-    }
-  },
-
   methods: {
-    increment() {
-      this.count++;
+    async callApi() {
+      const response = await TestService.get();
+
+      console.dir(response.data.value);
     }
   }
 }
