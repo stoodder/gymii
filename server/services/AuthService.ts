@@ -1,6 +1,6 @@
 import type { User, Prisma } from "@/server/prisma"
 import prisma from "@/server/prisma";
-import { UserValidationError, UnauthorizedError } from "@/server/errors";
+import { UserValidationError, UnauthorizedError } from "@/errors";
 import * as bcrypt from 'bcrypt';
 
 type RegisterInput = Omit<Prisma.UserCreateInput, 'salt'>

@@ -24,14 +24,13 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref } from 'vue';
 import { SessionService } from "@/services";
-import { ErrorResponseBody } from "@/contracts/responses";
+import { ResponseError } from "@/errors";
 
-const error: Ref<ErrorResponseBody | null> = ref(null);
-const isLoggingIn: Ref<boolean> = ref(false);
-const email: Ref<string> = ref('');
-const password: Ref<string> = ref('');
+const error = ref<ResponseError | null>(null);
+const isLoggingIn = ref<boolean>(false);
+const email = ref<string>('');
+const password = ref<string>('');
 
 const login = async () => {
 	if(isLoggingIn.value) return;
@@ -44,7 +43,7 @@ const login = async () => {
 			password: password.value
 		});
 	} catch(e) {
-		error.value = e as ErrorResponseBody
+		error.value = e as ResponseError
 	} finally {
 		isLoggingIn.value = false;
 	}

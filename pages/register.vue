@@ -31,15 +31,14 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref } from 'vue';
-import type { ErrorResponseBody } from "@/contracts/responses";
+import type { ResponseError } from "@/errors";
 import { SessionService, UserService } from "@/services";
 
-const error: Ref<ErrorResponseBody | null> = ref(null);
-const isRegistering: Ref<boolean> = ref(false);
-const email: Ref<string> = ref('');
-const name: Ref<string> = ref('');
-const password: Ref<string> = ref('');
+const error = ref<ResponseError | null>(null);
+const isRegistering = ref<boolean>(false);
+const email = ref<string>('');
+const name = ref<string>('');
+const password = ref<string>('');
 
 const register = async () => {
 	if (isRegistering.value) return;
@@ -53,7 +52,7 @@ const register = async () => {
 			password: password.value
 		});
 	} catch (e) {
-		error.value = e as ErrorResponseBody;
+		error.value = e as ResponseError;
 		isRegistering.value = false;
 
 		return;
@@ -64,10 +63,8 @@ const register = async () => {
 			email: email.value,
 			password: password.value
 		});
-
-		console.dir(session);
 	} catch (e) {
-		error.value = e as ErrorResponseBody;
+		error.value = e as ResponseError;
 	} finally {
 		isRegistering.value = false;
 	}

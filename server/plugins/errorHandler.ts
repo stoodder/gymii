@@ -1,21 +1,18 @@
-import { H3Response } from "h3";
-import { ResponseError } from "@/server/errors";
-import { InternalServerError } from "@/server/errors";
+import { H3Response, H3Error, H3Event } from "h3";
+import { ResponseError } from "@/errors";
+import { InternalServerError } from "@/errors";
 
 export default defineNitroPlugin((nitroApp) => {
-	nitroApp.h3App.options.onError = (error, event) => {
-		if(!(error instanceof ResponseError)) {
-			error = new InternalServerError(error.message);
-		}
+	nitroApp.h3App.options.onError = (error: H3Error, event: H3Event) => {
+		let responseError = error.data;
 
-		if(!(error instanceof ResponseError)) {
-			// TODO: Determine a better way to handle this, we should never see this
-			throw error;
+		if(!(responseError.data instanceof ResponseError)) {
+			responseError = new InternalServerError(error.message);
 		}
 		
-		const response = new H3Response(error.toJSON(), {
-			status: error.statusCode,
-			statusText: error.message
+		const response = new H3Response(responseError.toJSON(), {
+			status: responseError.statusCode,
+			statusText: responseError.message
 		});
 
 		event.respondWith(response)

@@ -1,4 +1,4 @@
-import type { ErrorResponse } from '@/contracts/responses';
+import { ResponseError } from '@/errors';
 
 type RequestOptions = {
 	url: string,
@@ -6,29 +6,33 @@ type RequestOptions = {
 	body?: any
 }
 
-async function useApiRequest<T, E extends ErrorResponse>({url, method, body}: RequestOptions): Promise<T> {
-	const { data, error } = await useFetch<T, E>(url, { body, method });
+type ErrorResponse = {
+	data: ResponseError
+}
+
+async function useApiRequest<T>({url, method, body}: RequestOptions): Promise<T> {
+	const { data, error } = await useFetch<T, ErrorResponse>(url, { body, method });
 
 	if(error) {
-		console.dir(error);
-		throw ( error.value as E ).data
+		const {statusCode, message, errors} = ( error.value as ErrorResponse ).data
+		throw new ResponseError(statusCode, message, errors)
 	} else {
 		return data.value as T
 	}
 }
 
 export function useApiGet<T>(url: string, body: any): Promise<T> {
-	return useApiRequest<T, ErrorResponse>({url, method: 'GET', body});
+	return useApiRequest<T>({url, method: 'GET', body});
 }
 
 export function useApiPost<T>(url: string, body: any): Promise<T> {
-	return useApiRequest<T, ErrorResponse>({url, method: 'POST', body});
+	return useApiRequest<T>({url, method: 'POST', body});
 }
 
 export function useApiPut<T>(url: string, body: any): Promise<T> {
-	return useApiRequest<T, ErrorResponse>({url, method: 'PUT', body});
+	return useApiRequest<T>({url, method: 'PUT', body});
 }
 
 export function useApiDelete<T>(url: string, body: any): Promise<T> {
-	return useApiRequest<T, ErrorResponse>({url, method: 'DELETE', body});
+	return useApiRequest<T>({url, method: 'DELETE', body});
 }

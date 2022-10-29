@@ -1,5 +1,5 @@
-import type ErrorResponseBody from './ErrorResponseBody';
-
 export default interface ErrorResponse {
-	data: ErrorResponseBody
+	message: string;
+	statusCode: number;
+	errors?: {[key: string]: string};
 }
