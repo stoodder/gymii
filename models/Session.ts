@@ -3,10 +3,14 @@ import type { SessionResponse } from "@/contracts/responses";
 import User from "./User";
 
 export interface SessionInterface extends BaseModelInterface {
+	email?: string;
+	password?: string;
   user?: User;
 }
 
 export default class Session extends BaseModel implements SessionInterface {
+	email?: string;
+	password?: string;
   user?: User;
 
 	static fromSessionResponse(data: SessionResponse): Session {

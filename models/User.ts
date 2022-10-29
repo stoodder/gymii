@@ -3,11 +3,13 @@ import { UserResponse } from "@/contracts/responses";
 
 export interface UserInterface extends BaseModelInterface {
   email?: string;
+	password?: string;
   name?: string;
 }
 
 export default class User extends BaseModel implements UserInterface {
   email?: string;
+	password?: string;
   name?: string;
 
 	static fromUserResponse(data: UserResponse): User {
