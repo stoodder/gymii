@@ -1,17 +1,21 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from '@/server/prisma';
 import { AuthService } from "@/server/services";
-
-const prisma = new PrismaClient();
 
 (async function() {
 	let exitCode = 0;
 	
 	try {
-		await AuthService.register({
+		const user = await prisma.user.findFirst({
+			where: {email: 'test@test.com'}
+		}) || await AuthService.register({
 			email: 'test@test.com',
 			name: 'Test',
 			password: 'test',
 		});
+
+		console.dir(user);
+
+		console.log(await AuthService.login('test@tests.com', 'password'))
 	} catch(e) {
 		console.error(e)
 		exitCode = 1;

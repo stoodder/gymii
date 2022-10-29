@@ -1,6 +1,6 @@
 import type { User, Prisma } from "@/server/prisma"
 import prisma from "@/server/prisma";
-import { UserValidationError, NotFoundError, UnauthorizedError } from "@/server/errors";
+import { UserValidationError, UnauthorizedError } from "@/server/errors";
 import * as bcrypt from 'bcrypt';
 
 type RegisterInput = Omit<Prisma.UserCreateInput, 'salt'>
@@ -31,7 +31,7 @@ export default class AuthService {
 		const user = await prisma.user.findFirst({ where: { email } });
 
 		if(!user) {
-			throw new NotFoundError();
+			throw new UnauthorizedError('Invalid credentials');
 		}
 
 		const isValidPassword = await bcrypt.compare(password, user.password);
