@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { Session } from '@/models';
 import { SessionService, UserService } from '@/services';
-import { SessionRequest, UserRequest } from '~~/contracts';
+import { SessionRequest, UserRequest } from '@/contracts';
 
 export type State = {
   session?: Session;
@@ -21,13 +21,20 @@ export default defineStore('SessionStore', {
     },
   },
   actions: {
+		async restoreSession(this: State) {
+			try {
+				this.session = await SessionService.restoreSession();
+			} catch (error) {
+				console.log(error);
+			}
+		},
     async login(this: State, sessionRequest: SessionRequest) {
 			if(this.isLoggingIn || this.isRegistering) return;
 
 			try {
 				this.isLoggingIn = true;
 
-				this.session = await SessionService.create(sessionRequest);
+				this.session = await SessionService.login(sessionRequest);
 			} finally {
 				this.isLoggingIn = false;
 			}
@@ -38,12 +45,9 @@ export default defineStore('SessionStore', {
 			try {
 				this.isRegistering = true;
 
-				const user = await UserService.create(userRequest);
+				const user = await UserService.register(userRequest);
 				
-				this.session = await SessionService.create({
-					email: user.email,
-					password: userRequest.password,
-				});
+				this.session = new Session({user});
 			} finally {
 				this.isRegistering = false;
 			}

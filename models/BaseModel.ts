@@ -4,18 +4,14 @@ export interface BaseModelInterface {
 
 export default class BaseModel implements BaseModelInterface {
 	id?: string;
-  validations: any = {};
-  errors?: any;
 
   constructor(props: BaseModelInterface) {
 		Object.assign(this, props);
   }
 
-  get isValid(): boolean {
-    return !this.errors;
-  }
-
-	get isNew(): boolean {
-		return !this.id;
+	toJSON(): {[key in keyof BaseModelInterface]: any} {
+		return {
+			id: this.id
+		}
 	}
 }

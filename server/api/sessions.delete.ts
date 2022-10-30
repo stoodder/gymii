@@ -4,12 +4,7 @@ import type { SessionRequest, SessionResponse } from "@/contracts";
 import { validateSessionRequest } from "@/validators";
 
 export default defineEventHandler(async (event): Promise<SessionResponse> => {
-	const data = await useBody<SessionRequest>(event);
 
-	await validateSessionRequest(data);
-
-	const user = await AuthService.login(event, data);
-
-	return new SessionSerializer({user});
+	return new SessionSerializer({user: null});
 })
 

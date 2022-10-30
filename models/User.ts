@@ -24,4 +24,12 @@ export default class User extends BaseModel implements UserInterface {
     super(props);
 		Object.assign(this, props);
   }
+
+	toJSON(): {[key in keyof UserInterface]: any} {
+		return {
+			...super.toJSON(),
+			email: this.email,
+			name: this.name
+		}
+	}
 }

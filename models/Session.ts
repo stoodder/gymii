@@ -5,13 +5,13 @@ import User from "./User";
 export interface SessionInterface extends BaseModelInterface {
 	email?: string;
 	password?: string;
-  user?: User;
+	user?: User;
 }
 
 export default class Session extends BaseModel implements SessionInterface {
 	email?: string;
 	password?: string;
-  user?: User;
+	user?: User;
 
 	static fromSessionResponse(data: SessionResponse): Session {
 		return new Session({
@@ -19,8 +19,16 @@ export default class Session extends BaseModel implements SessionInterface {
 		});
 	}
 
-  constructor(props: SessionInterface) {
+	constructor(props: SessionInterface) {
 		super(props);
 		Object.assign(this, props);
-  }
+	}
+
+	toJSON(): {[key in keyof SessionInterface]: any} {
+		return {
+			...super.toJSON(),
+			email: this.email,
+			user: this.user?.toJSON()
+		}
+	}
 }

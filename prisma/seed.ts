@@ -7,11 +7,11 @@ import { AuthService } from "@/server/services";
 	try {
 		const user = await prisma.user.findFirst({
 			where: {email: 'test@test.com'}
-		}) || await AuthService.register({
+		}) || await prisma.user.create({data: {
 			email: 'test@test.com',
 			name: 'Test',
-			password: 'test',
-		});
+			password: await AuthService.encryptPassword('test'),
+		}});
 	} catch(e) {
 		console.error(e)
 		exitCode = 1;

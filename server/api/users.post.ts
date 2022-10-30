@@ -16,7 +16,7 @@ export default defineEventHandler(async (event): Promise<UserResponse> => {
 		throw new BadRequestError('User already exists');
 	}
 
-	const user = await AuthService.register(data);
+	const user = await AuthService.register(event, data);
 
 	return new UserSerializer({user});
 })

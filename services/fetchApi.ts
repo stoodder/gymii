@@ -6,6 +6,15 @@ export default async function fetchApi<
 	ErrorResponseType extends ErrorResponse = ErrorResponse
 >(url: string, options: any): Promise<ResponseType> {
 	try {
+		if(process.server) {
+			const requestHeaders = useRequestHeaders() || {};
+			options = {...options}
+			options.headers = {
+				...options.headers,
+				cookie: requestHeaders.cookie
+			}
+		}
+
 		return await $fetch(url, options);
 	} catch(error) {
 		const errorResponse = error as ErrorResponseType;

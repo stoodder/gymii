@@ -9,5 +9,6 @@ export default defineNuxtConfig({
 	},
 	privateRuntimeConfig: {
 		NODE_ENV: ENV['NODE_ENV'],
+		JWT_SECRET: ENV['JWT_SECRET'],
 	}
 });

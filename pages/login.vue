@@ -25,7 +25,7 @@
 
 <script lang="ts" setup>
 import { ResponseError } from "@/errors";
-import { useSessionStore } from "~~/store";
+import { useSessionStore } from "@/store";
 
 const sessionStore = useSessionStore();
 const error = ref<ResponseError>();
