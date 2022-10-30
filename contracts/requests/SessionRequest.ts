@@ -1,4 +1,4 @@
 export default interface SessionRequest {
-	email: string;
-	password: string;
+	username?: string;
+	password?: string;
 }

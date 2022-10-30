@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { Session } from '@/models';
 import { SessionService, UserService } from '@/services';
-import { SessionRequest, UserRequest } from '@/contracts';
+import { SessionRequest, CreateUserRequest } from '@/contracts';
 
 type State = {
   session?: Session;
@@ -15,9 +15,14 @@ type Getters = {
 	isLoggedIn: (state: State) => boolean;
 }
 
-type This = State & Getters;
+type Actions = {
+	login: (payload: SessionRequest) => Promise<void>;
+	register: (payload: CreateUserRequest) => Promise<void>;
+	restoreSession: () => Promise<void>;
+	logout: () => Promise<void>;
+}
 
-export default defineStore('SessionStore', {
+export default defineStore<'SessionStore', State, Getters, Actions>('SessionStore', {
   state: (): State => ({
     session: undefined,
 		isLoggingIn: false,
@@ -33,7 +38,7 @@ export default defineStore('SessionStore', {
     },
   } as Getters,
   actions: {
-    async login(this: This, sessionRequest: SessionRequest) {
+    async login(sessionRequest: SessionRequest) {
 			if(this.isTakingAction) return;
 
 			try {
@@ -44,7 +49,7 @@ export default defineStore('SessionStore', {
 				this.isLoggingIn = false;
 			}
     },
-		async register(this: This, userRequest: UserRequest) {
+		async register(userRequest: CreateUserRequest) {
 			if(this.isTakingAction) return;
 
 			try {
@@ -57,7 +62,7 @@ export default defineStore('SessionStore', {
 				this.isRegistering = false;
 			}
 		},
-		async restoreSession(this: This) {
+		async restoreSession() {
 			if(this.isTakingAction) return;
 			if(this.isLoggedIn) return;
 
@@ -67,7 +72,7 @@ export default defineStore('SessionStore', {
 				console.log(error);
 			}
 		},
-    async logout(this: This) {
+    async logout() {
 			if(this.isTakingAction) return;
 			if(!this.isLoggedIn) return;
 

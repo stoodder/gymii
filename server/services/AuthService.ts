@@ -4,7 +4,7 @@ import JWT from "jsonwebtoken";
 import type { User, Prisma } from "@/server/prisma"
 import prisma from "@/server/prisma";
 import { ValidationError, UnauthorizedError } from "@/errors";
-import { SessionRequest } from "@/contracts";
+import { CreateUserRequest, SessionRequest } from "@/contracts";
 
 export default class AuthService {
 	static encryptPassword(password: string): Promise<string> {
@@ -19,22 +19,27 @@ export default class AuthService {
 		setCookie(event, 'session', authToken, {httpOnly: true});
 	}
 
-	static async register(event: H3Event, input: Prisma.UserCreateInput): Promise<User> {
+	static async register(event: H3Event, input: CreateUserRequest): Promise<User> {
 		if( await prisma.user.findFirst({ where: { email: input.email } })) {
 			throw new ValidationError({email: 'User already exists'});
 		}
 
 		const password = await this.encryptPassword(input.password);
 
-		const user = await prisma.user.create({data: {...input, password}});
+		const user = await prisma.user.create({data: {
+			username: input.username,
+			email: input.email,
+			name: input.name,
+			password,
+		}});
 
 		this.setAuthToken(event, user);
 
 		return user;
 	}
 
-	static async login(event: H3Event, {email, password}: SessionRequest): Promise<User> {
-		const user = await prisma.user.findFirst({ where: { email } });
+	static async login(event: H3Event, {username, password}: SessionRequest): Promise<User> {
+		const user = await prisma.user.findFirst({ where: { username } });
 
 		if(!user) {
 			throw new UnauthorizedError('Invalid credentials');

@@ -18,6 +18,10 @@ export default class UserSerializer extends Serializer {
 		return this._user.id;
 	}
 
+	get username(): string {
+		return this._user.username;
+	}
+
 	get email(): string {
 		return this._user.email;
 	}
@@ -30,6 +34,7 @@ export default class UserSerializer extends Serializer {
 		return {
 			id: this.id,
 			email: this.email,
+			username: this.username,
 			name: this.name
 		}
 	}

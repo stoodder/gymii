@@ -1,5 +1,5 @@
 <template>
-	<header class="flex items-stretch justify-start h-20 bg-emerald-700 sticky w-full">
+	<header class="flex items-stretch justify-start h-20 bg-emerald-700 w-full sticky top-0">
 		<Logo class="flex items-center justify-center" />
 		<nav v-if="!sessionStore.isLoggedIn" class="flex-1 flex items-stretch justify-start">
 			<HeaderNavItem to="/sign-up">
@@ -10,6 +10,9 @@
 			</HeaderNavItem>
 		</nav>
 		<nav v-else class="flex flex-1 items-stretch justify-start">
+			<HeaderNavItem to="/login">
+				Dashboard
+			</HeaderNavItem>
 			<HeaderNavItem to="/login">
 				Weight
 			</HeaderNavItem>

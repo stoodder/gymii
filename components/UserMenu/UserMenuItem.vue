@@ -3,7 +3,7 @@
 		flex items-center justify-start p-3
 		bg-emerald-900 hover:bg-emerald-800
 		text-s font-semibold text-stone-200 hover:text-stone-100
-		transition-all duration-75
+		transition-colors duration-75
 	`">
 		<slot />
 	</NuxtLink>
@@ -11,7 +11,7 @@
 		flex items-center justify-start p-3
 		bg-emerald-900 hover:bg-emerald-800
 		text-s font-semibold text-stone-200 hover:text-stone-100
-		transition-all duration-75
+		transition-colors duration-75
 	`">
 		<slot />
 	</a>

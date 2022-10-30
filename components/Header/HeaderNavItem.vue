@@ -2,7 +2,7 @@
 	<NuxtLink :to="to" :class="`
 		flex items-center justify-center px-6
 		text-stone-200 text-md font-semibold hover:bg-emerald-600
-		transition-all duration-75
+		transition-colors duration-75
 	`">
 		<slot />
 	</NuxtLink>

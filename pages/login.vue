@@ -9,11 +9,12 @@
 					{{ error.message }}
 				</NoticeError>
 				<Input
-					label="Email"
-					type="email"
-					placeholder="Email address"
-					:error="error?.errors?.email"
-					v-model="email"
+					label="Username"
+					type="text"
+					placeholder="Username"
+					prefix="@"
+					:error="error?.errors?.username"
+					v-model="username"
 				/>
 				<Input
 					label="Password"
@@ -47,7 +48,7 @@ import { useSessionStore } from "@/store";
 
 const sessionStore = useSessionStore();
 const error = ref<ResponseError>();
-const email = ref<string>('');
+const username = ref<string>('');
 const password = ref<string>('');
 
 const login = async () => {
@@ -55,11 +56,11 @@ const login = async () => {
 	
 	try {
 		await sessionStore.login({
-			email: email.value,
+			username: username.value,
 			password: password.value
 		});
 
-		email.value = "";
+		username.value = "";
 		password.value = "";
 		error.value = undefined;
 	} catch(e) {

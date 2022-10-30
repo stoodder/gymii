@@ -1,14 +1,14 @@
-import type { UserRequest, UserResponse } from "@/contracts";
+import type { CreateUserRequest, UserResponse } from "@/contracts";
 import { AuthService } from "@/server/services";
 import { UserSerializer } from "@/server/serializers";
 import prisma from "@/server/prisma";
 import { BadRequestError } from "@/errors";
-import { validateUserRequest } from "@/validators";
+import { validateCreateUserRequest } from "@/validators";
 
 export default defineEventHandler(async (event): Promise<UserResponse> => {
-	const data = await useBody<UserRequest>(event);
+	const data = await useBody<CreateUserRequest>(event);
 
-	await validateUserRequest(data);
+	await validateCreateUserRequest(data);
 
 	const existingUser = await prisma.user.findFirst({where: {email: data.email}});
 

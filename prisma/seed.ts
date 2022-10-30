@@ -1,5 +1,5 @@
 import prisma from '@/server/prisma';
-import { AuthService } from "@/server/services";
+import * as bcrypt from 'bcrypt';
 
 (async function() {
 	let exitCode = 0;
@@ -8,9 +8,10 @@ import { AuthService } from "@/server/services";
 		const user = await prisma.user.findFirst({
 			where: {email: 'test@test.com'}
 		}) || await prisma.user.create({data: {
+			username: 'test',
 			email: 'test@test.com',
 			name: 'Test',
-			password: await AuthService.encryptPassword('test'),
+			password: await bcrypt.hash('test', 10)
 		}});
 	} catch(e) {
 		console.error(e)
