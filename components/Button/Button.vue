@@ -13,8 +13,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from "vue";
-
 const props = defineProps<{
 	type?: 'button' | 'submit' | 'reset',
 	disabled?: boolean,

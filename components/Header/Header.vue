@@ -2,7 +2,7 @@
 	<header class="flex items-stretch justify-start h-20 bg-emerald-700 sticky w-full">
 		<Logo class="flex items-center justify-center" />
 		<nav v-if="!sessionStore.isLoggedIn" class="flex-1 flex items-stretch justify-start">
-			<HeaderNavItem to="/register">
+			<HeaderNavItem to="/sign-up">
 				Register
 			</HeaderNavItem>
 			<HeaderNavItem to="/login">

@@ -1,10 +1,10 @@
 <template>
 	<PageCentered>
 		<PageTitle>
-			Login
+			Register
 		</PageTitle>
 		<Pane>
-			<FormVertical @submit.prevent="login">
+			<FormVertical @submit.prevent="handleRegister">
 				<NoticeError v-if="error?.message">
 					{{ error.message }}
 				</NoticeError>
@@ -16,24 +16,25 @@
 					v-model="email"
 				/>
 				<Input
+					label="Name"
+					type="name"
+					placeholder="Full name"
+					:error="error?.errors?.name"
+					v-model="name"
+				/>
+				<Input
 					label="Password"
 					type="password"
 					placeholder="Password"
 					:error="error?.errors?.password"
 					v-model="password"
-				>
-					<template #links>
-						<BodyLink to="/">
-							Forgot password?
-						</BodyLink>
-					</template>
-				</Input>
+				/>
 				<FormActions>
-					<BodyLink to="/sign-up" class="text-md">
-						Sign Up
-					</BodyLink>
-					<Button type="submit" :disabled="sessionStore.isLoggingIn">
+					<BodyLink to="/login" class="text-md">
 						Login
+					</BodyLink>
+					<Button type="submit" :disabled="sessionStore.isRegistering">
+						Sign Up
 					</Button>
 				</FormActions>
 			</FormVertical>
@@ -42,28 +43,29 @@
 </template>
 
 <script lang="ts" setup>
-import { ResponseError } from "@/errors";
+import type { ResponseError } from "@/errors";
 import { useSessionStore } from "@/store";
 
 const sessionStore = useSessionStore();
 const error = ref<ResponseError>();
 const email = ref<string>('');
+const name = ref<string>('');
 const password = ref<string>('');
 
-const login = async () => {
-	if(sessionStore.isLoggingIn) return;
-	
+const handleRegister = async () => {
 	try {
-		await sessionStore.login({
+		await sessionStore.register({
 			email: email.value,
+			name: name.value,
 			password: password.value
 		});
 
 		email.value = "";
+		name.value = "";
 		password.value = "";
 		error.value = undefined;
-	} catch(e) {
-		error.value = e
+	} catch (e) {
+		error.value = e;
 	}
-};
+}
 </script>
