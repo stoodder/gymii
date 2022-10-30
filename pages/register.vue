@@ -57,7 +57,7 @@ const handleRegister = async () => {
 			password: password.value
 		});
 	} catch (e) {
-		error.value = e as ResponseError;
+		error.value = e;
 	} finally {
 		isRegistering.value = false;
 	}

@@ -12,10 +12,6 @@ import { AuthService } from "@/server/services";
 			name: 'Test',
 			password: 'test',
 		});
-
-		console.dir(user);
-
-		console.log(await AuthService.login('test@tests.com', 'password'))
 	} catch(e) {
 		console.error(e)
 		exitCode = 1;

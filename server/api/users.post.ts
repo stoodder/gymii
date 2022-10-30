@@ -1,11 +1,22 @@
 import { AuthService } from "@/server/services";
 import { UserSerializer } from "@/server/serializers";
 import type { UserRequest, UserResponse } from "@/contracts";
+import prisma from "@/server/prisma";
+import { BadRequestError } from "@/errors";
+import { validateUserRequest } from "@/validators";
 
 export default defineEventHandler(async (event): Promise<UserResponse> => {
-	const { email, name, password } = await useBody<UserRequest>(event);
+	const data = await useBody<UserRequest>(event);
 
-	const user = await AuthService.register({email, name, password});
+	await validateUserRequest(data);
+
+	const existingUser = await prisma.user.findFirst({where: {email: data.email}});
+
+	if(existingUser) {
+		throw new BadRequestError('User already exists');
+	}
+
+	const user = await AuthService.register(data);
 
 	return new UserSerializer({user});
 })
