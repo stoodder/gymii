@@ -1,30 +1,18 @@
 <template>
-    <header>
-			<div>
-				Gymii
-			</div>
-				<ul v-if="!sessionStore.isLoggedIn">
-					<li>
-						<nuxt-link to="/">Home</nuxt-link>
-					</li>
-					<li>
-						<nuxt-link to="/register">Register</nuxt-link>
-					</li>
-					<li>
-						<nuxt-link to="/login">Login</nuxt-link>
-					</li>
-				</ul>
-				<ul v-else>
-					<li>
-						<nuxt-link to="/">Home</nuxt-link>
-					</li>
-					<li>
-						<a href="#" @click.prevent="sessionStore.logout">
-							Logout
-						</a>
-					</li>
-				</ul>
-		</header>
+	<header class="flex items-stretch justify-start h-16 px-4 shadow-md">
+		<Logo class="flex items-center justify-center" />
+		<nav v-if="!sessionStore.isLoggedIn" class="flex-1 flex items-stretch justify-end">
+			<HeaderNavItem to="/register">
+				Register
+			</HeaderNavItem>
+			<HeaderNavItem to="/login">
+				Login
+			</HeaderNavItem>
+		</nav>
+		<nav v-else class="flex-1 flex items-stretch justify-end">
+			<UserMenu />
+		</nav>
+	</header>
 </template>
 
 <script lang="ts" setup>
