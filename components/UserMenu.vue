@@ -4,8 +4,9 @@
 		@click.prevent="toggleNavIsVisible"
 		:class="`
 			flex items-center justify-center relative w-48
-			p-3 text-sm cursor-pointer text-white text-mg font-semibold
-			${navIsVisible ? 'bg-emerald-900' : 'hover:bg-emerald-900 bg-emerald-800'}
+			p-3 text-sm cursor-pointer text-stone-200 text-mg font-semibold
+			transition-all duration-75
+			${navIsVisible ? 'bg-emerald-900' : 'hover:bg-emerald-900 bg-emerald-800 hover:text-stone-100'}
 		`">
 		<md-menu-icon class="mr-3 text-xl" />
 		<div class="flex flex-1 items-center justify-start">

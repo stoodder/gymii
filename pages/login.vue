@@ -1,26 +1,44 @@
 <template>
-	<form @submit.prevent="login">
-		<header>Login</header>
-		<div v-if="error?.message">
-			{{ error.message }}
-		</div>
-		<label>
-			Email
-			<input type="text" placeholder="Username" v-model="email" />
-			<div v-if="error?.errors?.email">
-				{{ error.errors.email }}
-			</div>
-		</label>
-		<label>
-			Password
-			<input type="password" placeholder="Password" v-model="password" />
-			<div v-if="error?.errors?.password">
-				{{ error.errors.password }}
-			</div>
-		</label>
-		<button type="submit" :disabled="sessionStore.isLoggingIn">Login</button>
-		<nuxt-link to="/register">Register</nuxt-link>
-	</form>
+	<PageCentered>
+		<PageTitle>
+			Login
+		</PageTitle>
+		<Pane>
+			<FormVertical @submit.prevent="login">
+				<NoticeError v-if="error?.message">
+					{{ error.message }}
+				</NoticeError>
+				<Input
+					label="Email"
+					type="email"
+					placeholder="Email address"
+					:error="error?.errors?.email"
+					v-model="email"
+				/>
+				<Input
+					label="Password"
+					type="password"
+					placeholder="Password"
+					:error="error?.errors?.password"
+					v-model="password"
+				>
+					<template #links>
+						<BodyLink to="/">
+							Forgot password?
+						</BodyLink>
+					</template>
+				</Input>
+				<FormActions>
+					<BodyLink to="/register" class="text-md">
+						Register
+					</BodyLink>
+					<Button type="submit" :disabled="sessionStore.isLoggingIn">
+						Login
+					</Button>
+				</FormActions>
+			</FormVertical>
+		</Pane>
+	</PageCentered>
 </template>
 
 <script lang="ts" setup>
