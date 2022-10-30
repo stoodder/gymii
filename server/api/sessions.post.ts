@@ -1,10 +1,9 @@
 import { AuthService } from "@/server/services";
 import { SessionSerializer } from "@/server/serializers";
-import type { SessionRequest } from "@/contracts/requests";
-import type { SessionResponse } from "@/contracts/responses";
+import type { SessionRequest, SessionResponse } from "@/contracts";
 
 export default defineEventHandler(async (event): Promise<SessionResponse> => {
-	const { email, password } = await useBody(event) as SessionRequest;
+	const { email, password } = await useBody<SessionRequest>(event);
 
 	const user = await AuthService.login(email, password);
 

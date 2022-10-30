@@ -1,5 +1,5 @@
 import { ResponseError } from '@/errors';
-import type { ErrorResponse } from '@/contracts/responses';
+import type { ErrorResponse } from '@/contracts';
 
 export default async function fetchApi<
 	ResponseType,

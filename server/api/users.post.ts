@@ -1,10 +1,9 @@
 import { AuthService } from "@/server/services";
 import { UserSerializer } from "@/server/serializers";
-import type { UserRequest } from "@/contracts/requests";
-import type { UserResponse } from "@/contracts/responses";
+import type { UserRequest, UserResponse } from "@/contracts";
 
 export default defineEventHandler(async (event): Promise<UserResponse> => {
-	const { email, name, password } = await useBody(event) as UserRequest;
+	const { email, name, password } = await useBody<UserRequest>(event);
 
 	const user = await AuthService.register({email, name, password});
 

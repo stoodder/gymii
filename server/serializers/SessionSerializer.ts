@@ -1,7 +1,7 @@
 import Serializer from "./Serializer";
 import UserSerializer from "./UserSerializer";
 import type { User } from "@/server/prisma";
-import type { SessionResponse } from "@/contracts/responses";
+import type { SessionResponse } from "@/contracts";
 
 type Props = {
 	user: User;

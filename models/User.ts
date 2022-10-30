@@ -1,5 +1,5 @@
 import BaseModel, { BaseModelInterface } from './BaseModel';
-import { UserResponse } from "@/contracts/responses";
+import { UserResponse } from "@/contracts";
 
 export interface UserInterface extends BaseModelInterface {
   email?: string;

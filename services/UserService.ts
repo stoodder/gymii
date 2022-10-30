@@ -1,5 +1,5 @@
-import type { UserResponse } from '@/contracts/responses';
-import type { UserRequest } from '@/contracts/requests';
+import type { UserResponse } from '@/contracts';
+import type { UserRequest } from '@/contracts';
 import { User } from "@/models";
 import fetchApi from "./fetchApi";
 

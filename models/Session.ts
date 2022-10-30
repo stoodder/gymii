@@ -1,5 +1,5 @@
 import BaseModel, { BaseModelInterface } from './BaseModel';
-import type { SessionResponse } from "@/contracts/responses";
+import type { SessionResponse } from "@/contracts";
 import User from "./User";
 
 export interface SessionInterface extends BaseModelInterface {

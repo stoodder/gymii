@@ -1,5 +1,5 @@
-import type { SessionRequest } from '@/contracts/requests';
-import type { SessionResponse } from '@/contracts/responses';
+import type { SessionRequest } from '@/contracts';
+import type { SessionResponse } from '@/contracts';
 import { Session } from '@/models';
 import fetchApi from "./fetchApi";
 
