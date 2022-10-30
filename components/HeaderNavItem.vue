@@ -1,10 +1,7 @@
 <template>
-	<NuxtLink v-if="to" :to="to" class="flex items-center justify-center px-2">
+	<NuxtLink :to="to" class="flex items-center justify-center px-6 text-white text-md font-semibold hover:bg-emerald-600">
 		<slot />
 	</NuxtLink>
-	<a v-else href="#" @click="emit('click')" class="flex items-center justify-center px-2">
-		<slot />
-	</a>
 </template>
 
 <script lang="ts" setup>
@@ -18,3 +15,9 @@ const emit = defineEmits<{
 	(e: 'click', ...args: any[]): void
 }>();
 </script>
+
+<style lang="scss" scoped>
+.router-link-active {
+	@apply bg-emerald-600;
+}
+</style>

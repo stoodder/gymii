@@ -1,11 +1,9 @@
 <template>
-	<nav class="w-full shadow-mdrounded-b-md rounded-tl-md bg-gray-100 border border-gray-300 z-0 overflow-hidden">
-		<div class="bg-white flex flex-col items-stretch m-1 hover:underline">
-			<UserMenuItem @click="sessionStore.logout">
-				<md-power-icon class="mr-2 text-gray-500 text-sm" />
-				Logout
-			</UserMenuItem>
-		</div>
+	<nav class="w-full z-0 overflow-hidden bg-emerald-900 flex flex-col items-stretch hover:underline text-white">
+		<UserMenuItem @click="sessionStore.logout">
+			<md-power-icon class="mr-3 text-xl" />
+			Logout
+		</UserMenuItem>
 	</nav>
 </template>
 

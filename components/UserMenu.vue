@@ -1,17 +1,17 @@
 <template>
-	<div class="flex items-center justify-center relative w-48" ref="rootElement">
-		<div 
-			@click.prevent="toggleNavIsVisible"
-			:class="`
-				bg-gray-100 rounded-md py-2 px-3 text-sm w-full cursor-pointer border-gray-300 border z-10 relative
-				flex items-center
-				${navIsVisible ? 'border-b-transparent rounded-b-none' : ''}
-				${navIsVisible ? '' : 'hover:bg-gray-200'}
-			`">
-			<md-menu-icon class="mr-2" />
+	<div 
+		ref="rootElement"
+		@click.prevent="toggleNavIsVisible"
+		:class="`
+			flex items-center justify-center relative w-48
+			p-3 text-sm cursor-pointer text-white text-mg font-semibold
+			${navIsVisible ? 'bg-emerald-900' : 'hover:bg-emerald-900 bg-emerald-800'}
+		`">
+		<md-menu-icon class="mr-3 text-xl" />
+		<div class="flex flex-1 items-center justify-start">
 			{{ sessionStore.session.user?.name }}
 		</div>
-		<UserMenuNav v-if="navIsVisible" class="absolute top-full right-0 -mt-4 shadow-md" />
+		<UserMenuNav v-if="navIsVisible" class="absolute top-full left-0" />
 	</div>
 </template>
 

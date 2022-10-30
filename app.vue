@@ -1,8 +1,5 @@
 <template>
-	<main>
-		<Header />
-		<RouterView />
-	</main>
+	<NuxtLayout />
 </template>
 
 <script type="ts" setup>

@@ -1,8 +1,8 @@
 <template>
-	<NuxtLink v-if="to" :to="to" class="flex items-center justify-start text-xs p-2 font-semibold">
+	<NuxtLink v-if="to" :to="to" class="flex items-center justify-start text-s p-3 font-semibold">
 		<slot />
 	</NuxtLink>
-	<a v-else href="#" @click.prevent="emit('click')" class="flex items-center justify-start text-xs p-2 font-semibold">
+	<a v-else href="#" @click.prevent="emit('click')" class="flex items-center justify-start text-s p-3 font-semibold">
 		<slot />
 	</a>
 </template>
