@@ -1,9 +1,14 @@
-export default class ResponseError extends Error {
-	statusCode: number;
+interface ResponseErrorInterface {
 	message: string;
+	statusCode: number;
+	errors?: {[key: string]: string};
+}
+
+export default class ResponseError extends Error implements ResponseErrorInterface {
+	statusCode: number;
 	errors?: {[key: string]: string};
 
-	constructor(statusCode: number, message: string = "Response error", errors?: {[key: string]: string}) {
+	constructor({message, statusCode, errors}: ResponseErrorInterface) {
 		super(message);
 		this.statusCode = statusCode;
 		this.errors = errors;

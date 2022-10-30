@@ -1,5 +1,5 @@
 <template>
-	<form @submit.prevent="register">
+	<form @submit.prevent="handleRegister">
 		<header>Register</header>
 		<div v-if="error?.message">
 			{{ error.message }}
@@ -40,7 +40,7 @@ const email = ref<string>('');
 const name = ref<string>('');
 const password = ref<string>('');
 
-const register = async () => {
+const handleRegister = async () => {
 	if (isRegistering.value) return;
 
 	isRegistering.value = true;
@@ -51,14 +51,7 @@ const register = async () => {
 			name: name.value,
 			password: password.value
 		});
-	} catch (e) {
-		error.value = e as ResponseError;
-		isRegistering.value = false;
 
-		return;
-	}
-
-	try {
 		const session = await SessionService.create({
 			email: email.value,
 			password: password.value
@@ -68,5 +61,7 @@ const register = async () => {
 	} finally {
 		isRegistering.value = false;
 	}
+
+	
 }
 </script>

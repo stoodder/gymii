@@ -36,7 +36,7 @@ const login = async () => {
 	if(isLoggingIn.value) return;
 
 	isLoggingIn.value = true;
-
+	
 	try {
 		const session = await SessionService.create({
 			email: email.value,
