@@ -18,34 +18,34 @@
 				{{ error.errors.password }}
 			</div>
 		</label>
-		<button type="submit" :disabled="isLoggingIn">Login</button>
+		<button type="submit" :disabled="sessionStore.isLoggingIn">Login</button>
 		<nuxt-link to="/register">Register</nuxt-link>
 	</form>
 </template>
 
 <script lang="ts" setup>
-import { SessionService } from "@/services";
 import { ResponseError } from "@/errors";
+import { useSessionStore } from "~~/store";
 
-const error = ref<ResponseError | null>(null);
-const isLoggingIn = ref<boolean>(false);
+const sessionStore = useSessionStore();
+const error = ref<ResponseError>();
 const email = ref<string>('');
 const password = ref<string>('');
 
 const login = async () => {
-	if(isLoggingIn.value) return;
-
-	isLoggingIn.value = true;
+	if(sessionStore.isLoggingIn) return;
 	
 	try {
-		const session = await SessionService.create({
+		await sessionStore.login({
 			email: email.value,
 			password: password.value
 		});
+
+		email.value = "";
+		password.value = "";
+		error.value = undefined;
 	} catch(e) {
 		error.value = e
-	} finally {
-		isLoggingIn.value = false;
 	}
 };
 </script>
