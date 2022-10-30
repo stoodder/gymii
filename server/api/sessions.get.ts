@@ -1,8 +1,8 @@
+import type { SessionResponse } from "@/contracts";
 import { AuthService } from "@/server/services";
 import { SessionSerializer } from "@/server/serializers";
-import type { SessionResponse } from "@/contracts";
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<SessionResponse> => {
 	const user = await AuthService.restoreSession(event);
 
 	return new SessionSerializer({user});

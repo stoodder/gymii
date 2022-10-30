@@ -1,6 +1,6 @@
+import type { UserRequest, UserResponse } from "@/contracts";
 import { AuthService } from "@/server/services";
 import { UserSerializer } from "@/server/serializers";
-import type { UserRequest, UserResponse } from "@/contracts";
 import prisma from "@/server/prisma";
 import { BadRequestError } from "@/errors";
 import { validateUserRequest } from "@/validators";
