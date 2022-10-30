@@ -3,33 +3,38 @@ import { Session } from '@/models';
 import { SessionService, UserService } from '@/services';
 import { SessionRequest, UserRequest } from '@/contracts';
 
-export type State = {
+type State = {
   session?: Session;
 	isLoggingIn: boolean;
+	isLoggingOut: boolean;
 	isRegistering: boolean;
 };
+
+type Getters = {
+	isTakingAction: (state: State) => boolean;
+	isLoggedIn: (state: State) => boolean;
+}
+
+type This = State & Getters;
 
 export default defineStore('SessionStore', {
   state: (): State => ({
     session: undefined,
 		isLoggingIn: false,
+		isLoggingOut: false,
 		isRegistering: false,
   }),
   getters: {
+		isTakingAction(state: State): boolean {
+			return state.isLoggingIn || state.isLoggingOut || state.isRegistering;
+		},
     isLoggedIn(state: State): boolean {
       return !!state.session;
     },
-  },
+  } as Getters,
   actions: {
-		async restoreSession(this: State) {
-			try {
-				this.session = await SessionService.restoreSession();
-			} catch (error) {
-				console.log(error);
-			}
-		},
-    async login(this: State, sessionRequest: SessionRequest) {
-			if(this.isLoggingIn || this.isRegistering) return;
+    async login(this: This, sessionRequest: SessionRequest) {
+			if(this.isTakingAction) return;
 
 			try {
 				this.isLoggingIn = true;
@@ -39,8 +44,8 @@ export default defineStore('SessionStore', {
 				this.isLoggingIn = false;
 			}
     },
-		async register(this: State, userRequest: UserRequest) {
-			if(this.isLoggingIn || this.isRegistering) return;
+		async register(this: This, userRequest: UserRequest) {
+			if(this.isTakingAction) return;
 
 			try {
 				this.isRegistering = true;
@@ -52,8 +57,21 @@ export default defineStore('SessionStore', {
 				this.isRegistering = false;
 			}
 		},
-    async logout(this: State) {
-			// await SessionService.logout();
+		async restoreSession(this: This) {
+			if(this.isTakingAction) return;
+			if(this.isLoggedIn) return;
+
+			try {
+				this.session = await SessionService.restoreSession();
+			} catch (error) {
+				console.log(error);
+			}
+		},
+    async logout(this: This) {
+			if(this.isTakingAction) return;
+			if(!this.isLoggedIn) return;
+
+			await SessionService.logout();
 
       this.session = undefined;
     },

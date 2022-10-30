@@ -19,7 +19,7 @@
 						<nuxt-link to="/">Home</nuxt-link>
 					</li>
 					<li>
-						<a @click="sessionStore.logout">
+						<a href="#" @click.prevent="sessionStore.logout">
 							Logout
 						</a>
 					</li>

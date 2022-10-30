@@ -70,4 +70,8 @@ export default class AuthService {
 
 		return user;
 	}
+
+	static async logout(event: H3Event): Promise<void> {
+		setCookie(event, 'session', undefined, {httpOnly: true});
+	}
 }
