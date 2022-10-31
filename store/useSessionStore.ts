@@ -78,7 +78,7 @@ export default defineStore<'SessionStore', State, Getters, Actions>('SessionStor
 
 			await SessionService.logout();
 
-      this.session = undefined;
+			this.session = undefined;
     },
   },
 });

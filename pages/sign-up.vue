@@ -87,6 +87,8 @@ const register = async () => {
 		password.value = "";
 		retypePassword.value = "";
 		error.value = undefined;
+
+		navigateTo("/"); // TODO: Navigate to welcome screen
 	} catch (e) {
 		error.value = e;
 	}

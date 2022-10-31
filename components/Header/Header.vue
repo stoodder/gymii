@@ -10,13 +10,13 @@
 			</HeaderNavItem>
 		</nav>
 		<nav v-else class="flex flex-1 items-stretch justify-start">
-			<HeaderNavItem to="/login">
+			<HeaderNavItem to="/">
 				Dashboard
 			</HeaderNavItem>
-			<HeaderNavItem to="/login">
+			<HeaderNavItem to="/weight">
 				Weight
 			</HeaderNavItem>
-			<HeaderNavItem to="/login">
+			<HeaderNavItem to="/training">
 				Training
 			</HeaderNavItem>
 			<div class="flex flex-1 items-center justify-end pr-6">

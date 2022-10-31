@@ -6,7 +6,14 @@ export default defineNitroPlugin((nitroApp) => {
 	nitroApp.h3App.options.onError = (error: H3Error, event: H3Event) => {
 		let responseError = error.data;
 
-		if(!responseError || !(responseError.data instanceof ResponseError)) {
+		if(!responseError) {
+			event.respondWith(new H3Response(error.toJSON(), {
+				status: error.statusCode,
+				statusText: error.message
+			}))
+		}
+
+		if(!(responseError.data instanceof ResponseError)) {
 			responseError = new InternalServerError(error.message);
 		}
 		

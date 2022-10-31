@@ -63,6 +63,8 @@ const login = async () => {
 		username.value = "";
 		password.value = "";
 		error.value = undefined;
+
+		navigateTo("/");
 	} catch(e) {
 		error.value = e
 	}
