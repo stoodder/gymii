@@ -1,8 +1,9 @@
+import type { RequestValidation } from "./types";
+import * as Yup from 'yup';
 import BaseRequest from "./BaseRequest";
 import { SessionResponse } from "@/contracts/responses";
-import * as Yup from 'yup';
 
-const validations = {
+const validations: RequestValidation<ISessionRequest> = {
 	username: Yup.string()
 		.min(3, 'Username must be at least 3 characters')
 		.max(24, 'Username must be at most 24 characters')

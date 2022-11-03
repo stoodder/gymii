@@ -1,14 +1,18 @@
 import * as Yup from 'yup';
+import type { RequestValidation } from "./types";
 import { ValidationError } from "@/contracts/errors";
 import { ErrorResponse, BaseResponse } from '@/contracts/responses';
 import { ResponseError } from '@/contracts/errors';
 import { BaseModel } from "@/models"
 
+type NonFunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T];
+type IResponseType<R> = Pick<R, NonFunctionPropertyNames<R>>;
+
 export default abstract class BaseRequest<
 	R extends BaseResponse<BaseModel>,
 	E extends ErrorResponse = ErrorResponse,
 > {
-	async validate<T>(shape: {[key in keyof T]: Yup.AnySchema}) {
+	async validate<T>(shape: RequestValidation<T>) {
 		try {
 			await Yup.object(shape).validate(this, {abortEarly: false, stripUnknown: true});
 		} catch(e) {
@@ -25,7 +29,7 @@ export default abstract class BaseRequest<
 		}
 	}
 
-	async fetch(url: string, options: any = {}): Promise<R> {
+	async fetch(url: string, options: any = {}): Promise<IResponseType<R>> {
 		try {
 			options = {
 				...options,
@@ -41,7 +45,7 @@ export default abstract class BaseRequest<
 				}
 			}
 
-			return await $fetch<R, string>(url, options);
+			return await $fetch<IResponseType<R>, string>(url, options)
 		} catch(error) {
 			const errorResponse = error as E;
 			throw new ResponseError(errorResponse.data);

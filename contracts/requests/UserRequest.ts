@@ -1,8 +1,9 @@
+import type { RequestValidation } from "./types";
 import BaseRequest from "./BaseRequest";
 import { UserResponse } from "../responses";
 import * as Yup from 'yup';
 
-const validations = {
+const validations: RequestValidation<IUserRequest> = {
 	username: Yup.string()
 		.min(3, 'Username must be at least 3 characters')
 		.max(24, 'Username must be at most 24 characters')
@@ -17,25 +18,25 @@ const validations = {
 	password: Yup.string()
 		.required("Password is required"),
 	retypePassword: Yup.string()
-		.required("Retype password is required")
+		.notRequired()
 		.oneOf([Yup.ref('password'), null], 'Passwords must match'),
 };
 
 export interface IUserRequest {
-	email: string;
-	username: string;
-	name: string;
-	password: string;
+	email?: string;
+	username?: string;
+	name?: string;
+	password?: string;
 	retypePassword?: string;
 }
 
 export default class CreateUserRequest
 extends BaseRequest<UserResponse>
 implements IUserRequest {
-	email: string;
-	username: string;
-	name: string;
-	password: string;
+	_email?: string;
+	_username?: string;
+	name?: string;
+	password?: string;
 	retypePassword?: string;
 
 	constructor(props: IUserRequest) {
@@ -46,6 +47,12 @@ implements IUserRequest {
 		this.password = props.password;
 		this.retypePassword = props.retypePassword;
 	}
+
+	get email(): string { return this._email; }
+	set email(value: string) { this._email = value.trim().toLowerCase(); }
+
+	get username(): string { return this._username; }
+	set username(value: string) { this._username = value.trim().toLowerCase(); }
 
 	async validate() {
 		return await super.validate<IUserRequest>(validations);
