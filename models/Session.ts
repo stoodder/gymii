@@ -1,31 +1,28 @@
-import BaseModel, { BaseModelInterface } from './BaseModel';
-import type { SessionResponse } from "@/contracts";
-import User from "./User";
+import BaseModel from './BaseModel';
+import User, {IUser} from "./User";
 
-export interface SessionInterface extends BaseModelInterface {
+export interface ISession {
 	email?: string;
-	user?: User;
+	user?: IUser;
 }
 
-export default class Session extends BaseModel implements SessionInterface {
+export default class Session
+extends BaseModel
+implements ISession {
 	email?: string;
 	user?: User;
 
-	static fromSessionResponse(data: SessionResponse): Session {
-		return new Session({
-			user: User.fromUserResponse(data.user)
-		});
-	}
-
-	constructor(props: SessionInterface) {
-		super(props);
+	constructor(props: ISession) {
+		super();
 		this.email = props.email;
-		this.user = props.user;
+
+		if(props.user) {
+			this.user = new User( props.user );
+		}
 	}
 
-	toJSON(): {[key in keyof SessionInterface]: any} {
+	toJSON(): ISession {
 		return {
-			...super.toJSON(),
 			email: this.email,
 			user: this.user?.toJSON()
 		}
