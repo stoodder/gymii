@@ -60,7 +60,7 @@
 <script lang="ts" setup>
 import type { ResponseError } from "@/errors";
 import { useSessionStore } from "@/store";
-import { UserRequest } from "~~/contracts";
+import { UserRequest } from "@/contracts";
 
 const sessionStore = useSessionStore();
 const error = ref<ResponseError>();

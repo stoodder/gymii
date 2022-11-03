@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useSessionStore } from '~~/store';
+import { useSessionStore } from '@/store';
 
 const sessionStore = useSessionStore();
 

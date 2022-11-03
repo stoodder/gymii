@@ -1,6 +1,6 @@
 import { H3Response, H3Error, H3Event } from "h3";
-import { ResponseError } from "@/errors";
-import { InternalServerError } from "@/errors";
+import { ResponseError } from "@/contracts/errors";
+import { InternalServerError } from "@/contracts/errors";
 
 export default defineNitroPlugin((nitroApp) => {
 	nitroApp.h3App.options.onError = (error: H3Error, event: H3Event) => {

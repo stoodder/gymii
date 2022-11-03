@@ -3,7 +3,7 @@ import { H3Event } from "h3";
 import JWT from "jsonwebtoken";
 import type { User, Prisma } from "@/server/prisma"
 import prisma from "@/server/prisma";
-import { ValidationError, UnauthorizedError } from "@/errors";
+import { ValidationError, UnauthorizedError } from "@/contracts/errors";
 import { CreateUserRequest, SessionRequest } from "@/contracts";
 
 export default class AuthService {

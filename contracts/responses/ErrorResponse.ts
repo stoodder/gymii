@@ -1,4 +1,4 @@
-import { ResponseError, IResponseError } from "@/errors";
+import { ResponseError, IResponseError } from "@/contracts/errors";
 
 export interface IErrorResponse {
 	data: IResponseError;

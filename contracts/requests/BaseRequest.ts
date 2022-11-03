@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
-import { ValidationError } from "@/errors";
+import { ValidationError } from "@/contracts/errors";
 import { ErrorResponse, BaseResponse } from '@/contracts/responses';
-import { ResponseError } from '@/errors';
+import { ResponseError } from '@/contracts/errors';
 import { BaseModel } from "@/models"
 
 export default abstract class BaseRequest<

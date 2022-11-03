@@ -1,7 +1,7 @@
 import { UserResponse, UserRequest, IUserRequest } from "@/contracts";
 import { AuthService } from "@/server/services";
 import prisma from "@/server/prisma";
-import { BadRequestError } from "@/errors";
+import { BadRequestError } from "@/contracts/errors";
 
 export default defineEventHandler(async (event): Promise<UserResponse> => {
 	const data = await useBody<IUserRequest>(event);
