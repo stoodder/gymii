@@ -60,6 +60,7 @@
 <script lang="ts" setup>
 import type { ResponseError } from "@/errors";
 import { useSessionStore } from "@/store";
+import { CreateUserRequest } from "~~/contracts";
 
 const sessionStore = useSessionStore();
 const error = ref<ResponseError>();
@@ -73,13 +74,15 @@ const register = async () => {
 	if(sessionStore.isRegistering) return;
 
 	try {
-		await sessionStore.register({
+		const request = new CreateUserRequest({
 			email: email.value,
 			username: username.value,
 			name: name.value,
 			password: password.value,
-			retypePassword: retypePassword.value
+			retypePassword: retypePassword.value,
 		});
+
+		await sessionStore.register(request);
 
 		email.value = "";
 		username.value = "";

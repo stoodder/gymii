@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { Session } from '@/models';
-import { SessionService, UserService } from '@/services';
-import { SessionRequest, CreateUserRequest } from '@/contracts';
+import { SessionRequest, UserRequest } from '@/contracts';
 
 type State = {
   session?: Session;
@@ -17,7 +16,7 @@ type Getters = {
 
 type Actions = {
 	login: (payload: SessionRequest) => Promise<void>;
-	register: (payload: CreateUserRequest) => Promise<void>;
+	register: (payload: UserRequest) => Promise<void>;
 	restoreSession: () => Promise<void>;
 	logout: () => Promise<void>;
 }
@@ -44,20 +43,24 @@ export default defineStore<'SessionStore', State, Getters, Actions>('SessionStor
 			try {
 				this.isLoggingIn = true;
 
-				this.session = await SessionService.login(sessionRequest);
+				const response = await sessionRequest.post();
+
+				this.session = response.toModel();
 			} finally {
 				this.isLoggingIn = false;
 			}
     },
-		async register(userRequest: CreateUserRequest) {
+		async register(request: UserRequest) {
 			if(this.isTakingAction) return;
 
 			try {
 				this.isRegistering = true;
 
-				const user = await UserService.register(userRequest);
+				const response = await request.create();
 				
-				this.session = new Session({user});
+				this.session = new Session({
+					user: response.toModel()
+				});
 			} finally {
 				this.isRegistering = false;
 			}
@@ -67,7 +70,9 @@ export default defineStore<'SessionStore', State, Getters, Actions>('SessionStor
 			if(this.isLoggedIn) return;
 
 			try {
-				this.session = await SessionService.restoreSession();
+				const response = await new SessionRequest().get();
+
+				this.session = response.toModel();
 			} catch (error) {
 				console.log(error);
 			}
@@ -76,7 +81,7 @@ export default defineStore<'SessionStore', State, Getters, Actions>('SessionStor
 			if(this.isTakingAction) return;
 			if(!this.isLoggedIn) return;
 
-			await SessionService.logout();
+			await new SessionRequest().delete();
 
 			this.session = undefined;
     },

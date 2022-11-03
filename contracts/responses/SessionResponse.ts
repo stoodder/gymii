@@ -1,5 +1,30 @@
-import UserResponse from './UserResponse';
+import BaseResponse from './BaseResponse';
+import UserResponse, { IUserResponse } from './UserResponse';
+import { Session } from '@/models';
 
-export default interface SessionResponse {
+export interface ISessionResponse {
+	user: IUserResponse;
+}
+
+export default class SessionResponse
+extends BaseResponse<Session>
+implements ISessionResponse {
 	user: UserResponse;
+
+	constructor(props: ISessionResponse) {
+		super();
+		this.user = new UserResponse(props.user);
+	}
+
+	toJSON(): ISessionResponse {
+		return {
+			user: this.user
+		}
+	}
+
+	toModel(): Session {
+		return new Session({
+			user: this.user?.toModel()
+		});
+	}
 }

@@ -1,5 +1,9 @@
 import { ResponseError } from "@/errors";
 
-export default interface ErrorResponse {
+export interface IErrorResponse {
+	data: ResponseError;
+}
+
+export default class ErrorResponse implements IErrorResponse {
 	data: ResponseError
 }

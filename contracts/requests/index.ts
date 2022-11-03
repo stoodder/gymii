@@ -1,2 +1,3 @@
-export { default as SessionRequest } from './SessionRequest';
-export { default as CreateUserRequest } from './CreateUserRequest';
+export { default as BaseRequest } from './BaseRequest';
+export { default as SessionRequest, ISessionRequest } from './SessionRequest';
+export { default as UserRequest, IUserRequest } from './UserRequest';

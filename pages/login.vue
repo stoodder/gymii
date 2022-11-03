@@ -43,6 +43,7 @@
 </template>
 
 <script lang="ts" setup>
+import { SessionRequest } from '@/contracts';
 import { ResponseError } from "@/errors";
 import { useSessionStore } from "@/store";
 
@@ -55,10 +56,12 @@ const login = async () => {
 	if(sessionStore.isLoggingIn) return;
 	
 	try {
-		await sessionStore.login({
+		const request = new SessionRequest({
 			username: username.value,
 			password: password.value
 		});
+		
+		await sessionStore.login(request);
 
 		username.value = "";
 		password.value = "";

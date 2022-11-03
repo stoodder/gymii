@@ -1,15 +1,16 @@
-import type { SessionRequest, SessionResponse } from "@/contracts";
+import { SessionRequest, ISessionRequest, SessionResponse, UserResponse } from "@/contracts";
 import { AuthService } from "@/server/services";
-import { SessionSerializer } from "@/server/serializers";
-import { validateSessionRequest } from "@/validators";
 
 export default defineEventHandler(async (event): Promise<SessionResponse> => {
-	const data = await useBody<SessionRequest>(event);
+	const data = await useBody<ISessionRequest>(event);
+	const request = new SessionRequest(data);
 
-	await validateSessionRequest(data);
+	await request.validate();
 
-	const user = await AuthService.login(event, data);
+	const user = await AuthService.login(event, request);
 
-	return new SessionSerializer({user});
+	return new SessionResponse({
+		user: new UserResponse(user)
+	});
 })
 
