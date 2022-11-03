@@ -37,13 +37,13 @@ export default defineStore<'SessionStore', State, Getters, Actions>('SessionStor
     },
   } as Getters,
   actions: {
-    async login(sessionRequest: SessionRequest) {
+    async login(request: SessionRequest) {
 			if(this.isTakingAction) return;
 
 			try {
 				this.isLoggingIn = true;
 
-				const response = await sessionRequest.post();
+				const response = await request.post();
 
 				this.session = response.toModel();
 			} finally {

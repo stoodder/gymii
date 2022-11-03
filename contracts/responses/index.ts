@@ -1,4 +1,15 @@
 export { default as BaseResponse } from './BaseResponse';
-export { default as SessionResponse, ISessionResponse } from './SessionResponse';
-export { default as UserResponse, IUserResponse } from './UserResponse';
-export { default as ErrorResponse, IErrorResponse } from './ErrorResponse';
+
+export { default as SessionResponse } from './SessionResponse';
+export * from './SessionResponse';
+
+export { default as UserResponse } from './UserResponse';
+export * from './UserResponse';
+
+export { default as ErrorResponse } from './ErrorResponse';
+export * from './ErrorResponse';
+
+
+
+
+

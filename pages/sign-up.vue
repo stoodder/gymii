@@ -60,7 +60,7 @@
 <script lang="ts" setup>
 import type { ResponseError } from "@/errors";
 import { useSessionStore } from "@/store";
-import { CreateUserRequest } from "~~/contracts";
+import { UserRequest } from "~~/contracts";
 
 const sessionStore = useSessionStore();
 const error = ref<ResponseError>();
@@ -74,7 +74,7 @@ const register = async () => {
 	if(sessionStore.isRegistering) return;
 
 	try {
-		const request = new CreateUserRequest({
+		const request = new UserRequest({
 			email: email.value,
 			username: username.value,
 			name: name.value,

@@ -30,8 +30,8 @@ implements ISessionRequest {
 		this.password = props.password;
 	}
 
-	validate() {
-		return super.validate<ISessionRequest>(validations);
+	async validate() {
+		return await super.validate<ISessionRequest>(validations);
 	}
 
 	async get(): Promise<SessionResponse> {

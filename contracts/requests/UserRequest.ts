@@ -47,8 +47,8 @@ implements IUserRequest {
 		this.retypePassword = props.retypePassword;
 	}
 
-	validate() {
-		return super.validate<IUserRequest>(validations);
+	async validate() {
+		return await super.validate<IUserRequest>(validations);
 	}
 
 	async create(): Promise<UserResponse> {

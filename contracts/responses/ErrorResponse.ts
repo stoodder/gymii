@@ -1,9 +1,15 @@
-import { ResponseError } from "@/errors";
+import { ResponseError, IResponseError } from "@/errors";
 
 export interface IErrorResponse {
-	data: ResponseError;
+	data: IResponseError;
 }
 
 export default class ErrorResponse implements IErrorResponse {
 	data: ResponseError
+
+	toJSON(): IErrorResponse {
+		return {
+			data: this.data.toJSON()
+		}
+	}
 }
