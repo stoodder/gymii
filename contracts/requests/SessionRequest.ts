@@ -3,6 +3,11 @@ import * as Yup from 'yup';
 import BaseRequest from "./BaseRequest";
 import { SessionResponse } from "@/contracts/responses";
 
+export interface ISessionRequest {
+	username?: string;
+	password?: string;
+}
+
 const validations: RequestValidation<ISessionRequest> = {
 	username: Yup.string()
 		.min(3, 'Username must be at least 3 characters')
@@ -14,14 +19,12 @@ const validations: RequestValidation<ISessionRequest> = {
 		.required("Password is required"),
 };
 
-export interface ISessionRequest {
-	username?: string;
-	password?: string;
-}
-
 export default class SessionRequest
-extends BaseRequest<SessionResponse>
+extends BaseRequest<ISessionRequest, SessionResponse>
 implements ISessionRequest {
+	put?(): undefined
+	patch?(): undefined
+
 	username: string;
 	password: string;
 
@@ -32,21 +35,21 @@ implements ISessionRequest {
 	}
 
 	async validate() {
-		return await super.validate<ISessionRequest>(validations);
+		return await super.validate(validations);
 	}
 
-	async get(): Promise<SessionResponse> {
+	async get() {
 		const data = await super.fetch("/api/sessions", {method: "GET"});
 		return new SessionResponse(data);
 	}
 
-	async post(): Promise<SessionResponse> {
+	async post() {
 		await this.validate();
 		const data = await super.fetch("/api/sessions", {method: "POST"});
 		return new SessionResponse(data);
 	}
 
-	async delete(): Promise<SessionResponse> {
+	async delete() {
 		const data = await super.fetch("/api/sessions", {method: "DELETE"});
 		return new SessionResponse(data);
 	}
@@ -54,7 +57,7 @@ implements ISessionRequest {
 	toJSON(): ISessionRequest {
 		return {
 			username: this.username,
-			password: this.password
+			password: this.password,
 		}
 	}
 }

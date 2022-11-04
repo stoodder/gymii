@@ -1,4 +1,4 @@
-import { H3Response, H3Error, H3Event } from "h3";
+import { H3Response, H3Error, H3Event, sendError } from "h3";
 import { ResponseError } from "@/contracts/errors";
 import { InternalServerError } from "@/contracts/errors";
 
@@ -7,13 +7,8 @@ export default defineNitroPlugin((nitroApp) => {
 		let responseError = error.data;
 
 		if(!responseError) {
-			event.respondWith(new H3Response(error.toJSON(), {
-				status: error.statusCode,
-				statusText: error.message
-			}))
-		}
-
-		if(!(responseError.data instanceof ResponseError)) {
+			responseError = new InternalServerError(error.message);
+		} else if(!(responseError.data instanceof ResponseError)) {
 			responseError = new InternalServerError(error.message);
 		}
 		

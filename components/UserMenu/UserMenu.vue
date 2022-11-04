@@ -6,9 +6,13 @@
 			flex items-center justify-center relative w-48
 			p-3 text-sm cursor-pointer text-stone-200 text-mg font-semibold
 			transition-colors duration-75
-			${navIsVisible ? 'bg-emerald-900' : 'hover:bg-emerald-900 bg-emerald-800 hover:text-stone-100'}
+			${navIsVisible ? `
+				bg-emerald-900 rounded-t-sm
+			` : `
+				hover:bg-emerald-900 bg-emerald-800 hover:text-stone-100 rounded-sm
+			`}
 		`">
-		<md-menu-icon class="mr-3 text-xl" />
+		<Icon class="mr-3 text-xl" name="ion:md-menu" />
 		<div class="flex flex-1 items-center justify-start">
 			{{ sessionStore.session.user?.name }}
 		</div>

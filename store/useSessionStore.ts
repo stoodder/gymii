@@ -56,7 +56,7 @@ export default defineStore<'SessionStore', State, Getters, Actions>('SessionStor
 			try {
 				this.isRegistering = true;
 
-				const response = await request.create();
+				const response = await request.post();
 				
 				this.session = new Session({
 					user: response.toModel()

@@ -1,20 +1,24 @@
 import * as Yup from 'yup';
-import type { RequestValidation } from "./types";
+import type { RequestValidation, Properties } from "./types";
 import { ValidationError } from "@/contracts/errors";
-import { ErrorResponse, BaseResponse } from '@/contracts/responses';
+import { ErrorResponse } from '@/contracts/responses';
 import { ResponseError } from '@/contracts/errors';
-import { BaseModel } from "@/models"
+import { BaseResponse } from '@/contracts/responses';
+import { BaseModel } from "@/models";
+import { TypedInternalResponse, InternalApi } from 'nitropack';
+import type { FetchOptions } from 'ohmyfetch';
 
-type NonFunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T];
-type IResponseType<R> = Pick<R, NonFunctionPropertyNames<R>>;
-
-export default abstract class BaseRequest<
-	R extends BaseResponse<BaseModel>,
-	E extends ErrorResponse = ErrorResponse,
-> {
-	async validate<T>(shape: RequestValidation<T>) {
+export default abstract class BaseRequest<I, R extends BaseResponse<BaseModel>> {
+	abstract get?(): Promise<R>;
+	abstract put?(): Promise<R>;
+	abstract post?(): Promise<R>;
+	abstract patch?(): Promise<R>;
+	abstract delete?(): Promise<R>;
+	abstract toJSON(): I;
+	
+	async validate(shape: RequestValidation<I>) {
 		try {
-			await Yup.object(shape).validate(this, {abortEarly: false, stripUnknown: true});
+			await Yup.object(shape).validate(this, {abortEarly: false});
 		} catch(e) {
 			if(!(e instanceof Yup.ValidationError)) {
 				throw e;
@@ -29,11 +33,10 @@ export default abstract class BaseRequest<
 		}
 	}
 
-	async fetch(url: string, options: any = {}): Promise<IResponseType<R>> {
+	async fetch<Route extends keyof InternalApi>(url: Route, options: FetchOptions = {}) {
 		try {
-			options = {
-				...options,
-				body: this.toJSON(),
+			if(["POST", "PUT", "PATCH"].includes(options.method)) {
+				options.body = this.toJSON();
 			}
 
 			if(process.server) {
@@ -45,14 +48,10 @@ export default abstract class BaseRequest<
 				}
 			}
 
-			return await $fetch<IResponseType<R>, string>(url, options)
+			return await $fetch<TypedInternalResponse<Route>>(url, options)
 		} catch(error) {
-			const errorResponse = error as E;
+			const errorResponse = error as ErrorResponse;
 			throw new ResponseError(errorResponse.data);
 		}
-	}
-
-	toJSON() {
-		return {};
 	}
 }

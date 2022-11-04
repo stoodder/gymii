@@ -1,9 +1,11 @@
-import { SessionResponse } from "@/contracts";
+import { SessionResponse, UserResponse, ISessionResponse } from "@/contracts";
 import { AuthService } from "@/server/services";
 
-export default defineEventHandler(async (event): Promise<SessionResponse> => {
+export default defineEventHandler(async (event): Promise<ISessionResponse> => {
 	const user = await AuthService.restoreSession(event);
 
-	return new SessionResponse({user});
+	return new SessionResponse({
+		user: new UserResponse(user)
+	}).toJSON();
 })
 

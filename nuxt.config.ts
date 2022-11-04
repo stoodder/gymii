@@ -4,6 +4,7 @@ import ENV from './environment'
 export default defineNuxtConfig({
 	modules: [
 		'@pinia/nuxt',
+		'nuxt-icon'
 	],
 	publicRuntimeConfig: {
 	},

@@ -3,6 +3,14 @@ import BaseRequest from "./BaseRequest";
 import { UserResponse } from "../responses";
 import * as Yup from 'yup';
 
+export interface IUserRequest {
+	email?: string;
+	username?: string;
+	name?: string;
+	password?: string;
+	retypePassword?: string;
+}
+
 const validations: RequestValidation<IUserRequest> = {
 	username: Yup.string()
 		.min(3, 'Username must be at least 3 characters')
@@ -22,43 +30,41 @@ const validations: RequestValidation<IUserRequest> = {
 		.oneOf([Yup.ref('password'), null], 'Passwords must match'),
 };
 
-export interface IUserRequest {
-	email?: string;
-	username?: string;
-	name?: string;
-	password?: string;
-	retypePassword?: string;
-}
-
 export default class CreateUserRequest
-extends BaseRequest<UserResponse>
+extends BaseRequest<IUserRequest, UserResponse>
 implements IUserRequest {
+	get?(): undefined;
+	put?(): undefined;
+	patch?(): undefined;
+	delete?(): undefined;
+
 	_email?: string;
 	_username?: string;
 	name?: string;
 	password?: string;
 	retypePassword?: string;
 
-	constructor(props: IUserRequest) {
+	constructor(props: IUserRequest = {}) {
 		super();
-		this.email = props.email;
-		this.username = props.username;
-		this.name = props.name;
-		this.password = props.password;
-		this.retypePassword = props.retypePassword;
+		Object.assign(this, props);
+		// this.email = props.email;
+		// this.username = props.username;
+		// this.name = props.name;
+		// this.password = props.password;
+		// this.retypePassword = props.retypePassword;
 	}
 
 	get email(): string { return this._email; }
-	set email(value: string) { this._email = value.trim().toLowerCase(); }
+	set email(value: string) { this._email = value?.trim().toLowerCase() || ""; }
 
 	get username(): string { return this._username; }
-	set username(value: string) { this._username = value.trim().toLowerCase(); }
+	set username(value: string) { this._username = value?.trim().toLowerCase() || ""; }
 
 	async validate() {
-		return await super.validate<IUserRequest>(validations);
+		return await super.validate(validations);
 	}
 
-	async create(): Promise<UserResponse> {
+	async post() {
 		await this.validate();
 		const data = await super.fetch("/api/users", {method: "POST"});
 		return new UserResponse(data);
@@ -69,7 +75,8 @@ implements IUserRequest {
 			username: this.username,
 			email: this.email,
 			name: this.name,
-			password: this.password
+			password: this.password,
+			retypePassword: this.retypePassword
 		};
 	}
 }

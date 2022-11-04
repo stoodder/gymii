@@ -1,7 +1,7 @@
-import { SessionRequest, ISessionRequest, SessionResponse, UserResponse } from "@/contracts";
+import { SessionRequest, ISessionRequest, SessionResponse, ISessionResponse, UserResponse } from "@/contracts";
 import { AuthService } from "@/server/services";
 
-export default defineEventHandler(async (event): Promise<SessionResponse> => {
+export default defineEventHandler(async (event): Promise<ISessionResponse> => {
 	const data = await useBody<ISessionRequest>(event);
 	const request = new SessionRequest(data);
 
@@ -11,6 +11,6 @@ export default defineEventHandler(async (event): Promise<SessionResponse> => {
 
 	return new SessionResponse({
 		user: new UserResponse(user)
-	});
+	}).toJSON();
 })
 

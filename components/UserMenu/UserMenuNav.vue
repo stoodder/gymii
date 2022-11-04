@@ -1,7 +1,7 @@
 <template>
-	<nav class="w-full z-0 overflow-hidden bg-emerald-900 flex flex-col items-stretch border-b-4 border-b-emerald-600">
+	<nav class="w-full z-0 overflow-hidden bg-emerald-900 flex flex-col items-stretch border-b-4 border-b-emerald-600 rounded-b-sm">
 		<UserMenuItem @click="logout">
-			<md-power-icon class="mr-3 text-xl" />
+			<Icon class="mr-3 text-xl" name="ion:md-power" />
 			Logout
 		</UserMenuItem>
 	</nav>

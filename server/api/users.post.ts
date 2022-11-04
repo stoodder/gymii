@@ -1,9 +1,9 @@
-import { UserResponse, UserRequest, IUserRequest } from "@/contracts";
+import { UserResponse, IUserResponse, UserRequest, IUserRequest } from "@/contracts";
 import { AuthService } from "@/server/services";
 import prisma from "@/server/prisma";
 import { BadRequestError } from "@/contracts/errors";
 
-export default defineEventHandler(async (event): Promise<UserResponse> => {
+export default defineEventHandler(async (event): Promise<IUserResponse> => {
 	const data = await useBody<IUserRequest>(event);
 	const request = new UserRequest(data);
 
@@ -17,6 +17,6 @@ export default defineEventHandler(async (event): Promise<UserResponse> => {
 
 	const user = await AuthService.register(event, request);
 
-	return new UserResponse(user);
+	return new UserResponse(user).toJSON();
 })
 

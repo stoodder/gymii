@@ -6,6 +6,7 @@
 		<div :class="`
 			flex w-full items-stretch
 			transitions-colors duration-75
+			rounded-sm
 			${isFocussed ? 'bg-white' : 'bg-stone-100'}
 		`">
 			<div v-if="prefix" class="p-3 pr-0 flex items-center text-stone-400 font-extrabold font-lg">
