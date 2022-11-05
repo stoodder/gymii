@@ -13,35 +13,35 @@
 					type="text"
 					placeholder="Username"
 					prefix="@"
-					:error="error?.errors?.username"
+					:error="error?.getError('username')"
 					v-model="username"
 				/>
 				<Input
 					label="Email"
 					type="email"
 					placeholder="Email address"
-					:error="error?.errors?.email"
+					:error="error?.getError('email')"
 					v-model="email"
 				/>
 				<Input
 					label="Name"
 					type="name"
 					placeholder="Full name"
-					:error="error?.errors?.name"
+					:error="error?.getError('name')"
 					v-model="name"
 				/>
 				<Input
 					label="Password"
 					type="password"
 					placeholder="Password"
-					:error="error?.errors?.password"
+					:error="error?.getError('password')"
 					v-model="password"
 				/>
 				<Input
 					label="Retype password"
 					type="password"
 					placeholder="Password"
-					:error="error?.errors?.retypePassword"
+					:error="error?.getError('retypePassword')"
 					v-model="retypePassword"
 				/>
 				<FormActions>
@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { ResponseError } from "@/errors";
+import type { ResponseError } from "@/contracts/errors";
 import { useSessionStore } from "@/store";
 import { UserRequest } from "@/contracts";
 

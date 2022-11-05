@@ -34,23 +34,34 @@ implements ISessionRequest {
 		this.password = props.password;
 	}
 
-	async validate() {
-		return await super.validate(validations);
+	async validate(subset: Array<keyof Partial<ISessionRequest>> = undefined) {
+		return await super.executeValidations(validations, subset);
 	}
 
 	async get() {
-		const data = await super.fetch("/api/sessions", {method: "GET"});
+		const data = await super.fetch("/api/sessions", {
+			method: "GET"
+		});
+
 		return new SessionResponse(data);
 	}
 
 	async post() {
-		await this.validate();
-		const data = await super.fetch("/api/sessions", {method: "POST"});
+		await this.validate(['username', 'password']);
+
+		const data = await super.fetch("/api/sessions", {
+			method: "POST",
+			body: this.serialize(['username', 'password'])
+		});
+
 		return new SessionResponse(data);
 	}
 
 	async delete() {
-		const data = await super.fetch("/api/sessions", {method: "DELETE"});
+		const data = await super.fetch("/api/sessions", {
+			method: "DELETE"
+		});
+		
 		return new SessionResponse(data);
 	}
 

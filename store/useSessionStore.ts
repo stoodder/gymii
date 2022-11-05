@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { Session } from '@/models';
+import { Session, User } from '@/models';
 import { SessionRequest, UserRequest } from '@/contracts';
 
 type State = {
@@ -12,6 +12,7 @@ type State = {
 type Getters = {
 	isTakingAction: (state: State) => boolean;
 	isLoggedIn: (state: State) => boolean;
+	currentUser: (state: State) => User | undefined;
 }
 
 type Actions = {
@@ -19,6 +20,7 @@ type Actions = {
 	register: (payload: UserRequest) => Promise<void>;
 	restoreSession: () => Promise<void>;
 	logout: () => Promise<void>;
+	updateCurrentUser: (user: User) => void;
 }
 
 export default defineStore<'SessionStore', State, Getters, Actions>('SessionStore', {
@@ -35,6 +37,9 @@ export default defineStore<'SessionStore', State, Getters, Actions>('SessionStor
     isLoggedIn(state: State): boolean {
       return !!state.session;
     },
+		currentUser(state: State): User | undefined {
+			return state.session?.user
+		}
   } as Getters,
   actions: {
     async login(request: SessionRequest) {
@@ -85,5 +90,10 @@ export default defineStore<'SessionStore', State, Getters, Actions>('SessionStor
 
 			this.session = undefined;
     },
+		updateCurrentUser(user: User) {
+			if(!this.isLoggedIn) return;
+
+			this.session!.user = user;
+		}
   },
 });

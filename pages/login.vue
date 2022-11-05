@@ -13,14 +13,14 @@
 					type="text"
 					placeholder="Username"
 					prefix="@"
-					:error="error?.errors?.username"
+					:error="error?.getError('username')"
 					v-model="username"
 				/>
 				<Input
 					label="Password"
 					type="password"
 					placeholder="Password"
-					:error="error?.errors?.password"
+					:error="error?.getError('password')"
 					v-model="password"
 				>
 					<template #links>
@@ -44,7 +44,7 @@
 
 <script lang="ts" setup>
 import { SessionRequest } from '@/contracts';
-import { ResponseError } from "@/errors";
+import { ResponseError } from "@/contracts/errors";
 import { useSessionStore } from "@/store";
 
 const sessionStore = useSessionStore();

@@ -11,31 +11,12 @@ export default class AuthService {
 		return bcrypt.hash(password, 10);
 	}
 
-	private static setAuthToken(event: H3Event, user: User): void {
+	static setAuthToken(event: H3Event, user: User): void {
 		const {JWT_SECRET} = useRuntimeConfig();
 
 		const authToken = JWT.sign({id: user.id, salt: Math.random()}, JWT_SECRET, {expiresIn: '1d'});
 
 		setCookie(event, 'session', authToken, {httpOnly: true});
-	}
-
-	static async register(event: H3Event, request: UserRequest): Promise<User> {
-		if( await prisma.user.findFirst({ where: { email: request.email } })) {
-			throw new ValidationError({email: 'User already exists'});
-		}
-
-		const password = await this.encryptPassword(request.password);
-
-		const user = await prisma.user.create({data: {
-			username: request.username,
-			email: request.email,
-			name: request.name,
-			password,
-		}});
-
-		this.setAuthToken(event, user);
-
-		return user;
 	}
 
 	static async login(event: H3Event, {username, password}: SessionRequest): Promise<User> {

@@ -1,30 +1,26 @@
 import BaseModel from './BaseModel';
-import User, {IUser} from "./User";
+import User from "./User";
 
-export interface ISession {
-	email?: string;
-	user?: IUser;
+interface ISession {
+	user?: User;
 }
 
 export default class Session
 extends BaseModel
 implements ISession {
-	email?: string;
+	toRequest?(): undefined
+
 	user?: User;
 
-	constructor(props: ISession) {
+	constructor(props: ISession = {}) {
 		super();
-		this.email = props.email;
 
-		if(props.user) {
-			this.user = new User( props.user );
-		}
+		if(props.user) this.user = new User(props.user);
 	}
 
 	toJSON(): ISession {
 		return {
-			email: this.email,
-			user: this.user?.toJSON()
+			user: this.user
 		}
 	}
 }

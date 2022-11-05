@@ -1,8 +1,8 @@
+import type { Errors } from "./types";
 import ResponseError from "./ResponseError";
-import type { User } from "@/server/prisma";
 
-export default class ValidationError extends ResponseError {
-	constructor(errors: { [key in keyof Partial<User>]: string }) {
+export default class ValidationError<T = any> extends ResponseError<T> {
+	constructor(errors: Errors<T> | undefined = undefined) {
 		super({
 			statusCode: 400,
 			message: undefined,

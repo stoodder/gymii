@@ -1,25 +1,32 @@
 import BaseModel from './BaseModel';
+import { UserRequest } from '~~/contracts';
 
-export interface IUser {
+interface IUser {
 	id?: string;
   email?: string;
   name?: string;
 	username?: string;
 }
 
-export default class User extends BaseModel implements IUser {
+export default class User
+extends BaseModel
+implements IUser {
 	id?: string;
   email?: string;
   name?: string;
 	username?: string;
 
-  constructor(props: IUser) {
+  constructor(props: IUser = {}) {
     super();
 		this.id = props.id;
 		this.email = props.email;
-		this.username = props.username;
 		this.name = props.name;
+		this.username = props.username;
   }
+
+	toRequest(): UserRequest {
+		return new UserRequest(this)
+	}
 
 	toJSON(): IUser {
 		return {
