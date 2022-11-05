@@ -19,7 +19,7 @@ const props = defineProps<{
 }>();
 </script>
 
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
 .router-link-exact-active {
 	@apply bg-emerald-700 hover:bg-emerald-700 text-white hover:text-white cursor-default;
 }

@@ -16,7 +16,7 @@ const props = defineProps<{
 }>();
 </script>
 
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
 .router-link-active {
 	@apply bg-emerald-600 text-white;
 }
