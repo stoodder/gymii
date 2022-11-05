@@ -1,5 +1,5 @@
 import BaseModel from './BaseModel';
-import { UserRequest } from '~~/contracts';
+import { UserRequest } from '@/contracts';
 
 interface IUser {
 	id?: string;

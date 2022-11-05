@@ -1,6 +1,6 @@
 import prisma from "@/server/prisma";
 import type { User } from "@/server/prisma";
-import { NotAuthorizedError, NotFoundError } from "~~/contracts/errors";
+import { NotAuthorizedError, NotFoundError } from "@/contracts/errors";
 
 export default async function guardCanModifyUser(currentUser: User, user: string | User) {
 	if(typeof user === 'string') {

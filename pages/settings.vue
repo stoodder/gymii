@@ -44,7 +44,7 @@
 <script lang="ts" setup>
 import { ResponseError } from '@/contracts/errors';
 import { useSessionStore } from "@/store";
-import { User } from '~~/models';
+import { User } from '@/models';
 
 definePageMeta({
 	middleware: ['auth'],
