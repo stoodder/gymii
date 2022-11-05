@@ -45,12 +45,12 @@
 					v-model="retypePassword"
 				/>
 				<FormActions>
+					<Button type="submit" :disabled="sessionStore.isRegistering" class="mr-6">
+						Sign Up
+					</Button>
 					<BodyLink to="/login" class="text-md">
 						Login
 					</BodyLink>
-					<Button type="submit" :disabled="sessionStore.isRegistering">
-						Sign Up
-					</Button>
 				</FormActions>
 			</FormVertical>
 		</Pane>

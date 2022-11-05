@@ -30,12 +30,12 @@
 					</template>
 				</Input>
 				<FormActions>
+					<Button type="submit" :disabled="sessionStore.isLoggingIn" class="mr-6">
+						Login
+					</Button>
 					<BodyLink to="/sign-up" class="text-md">
 						Sign Up
 					</BodyLink>
-					<Button type="submit" :disabled="sessionStore.isLoggingIn">
-						Login
-					</Button>
 				</FormActions>
 			</FormVertical>
 		</Pane>

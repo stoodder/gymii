@@ -1,7 +1,7 @@
 <template>
 	<GymiiLink :to="to" :class="`
 		bg-stone-300 hover:bg-stone-400
-		px-6 py-2 mx-2
+		px-6 py-3 mx-3
 		rounded-sm
 		transition-colors duration-75
 		inline-block
