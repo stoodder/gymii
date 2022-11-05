@@ -4,7 +4,7 @@
 			<Icon class="mr-3 text-xl" name="ion:md-settings" />
 			Settings
 		</UserMenuItem>
-		<UserMenuItem @click="logout">
+		<UserMenuItem @click.prevent="logout">
 			<Icon class="mr-3 text-xl" name="ion:md-power" />
 			Logout
 		</UserMenuItem>

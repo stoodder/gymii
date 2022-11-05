@@ -13,6 +13,9 @@ export interface IUserRequest {
 }
 
 const validations: RequestValidation<IUserRequest> = {
+	id: Yup.string()
+		.required("Id is required")
+		.uuid("Id must be a valid UUID"),
 	username: Yup.string()
 		.required("Username is required")
 		.min(3, 'Username must be at least 3 characters')
@@ -47,7 +50,6 @@ implements IUserRequest {
 
 	constructor(props: IUserRequest = {}) {
 		super();
-		console.dir(props);
 		this.id = props.id;
 		this.email = props.email;
 		this.username = props.username;

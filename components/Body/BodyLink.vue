@@ -1,7 +1,7 @@
 <template>
-	<NuxtLink :to="to" class="hover:underline text-stone-700 font-semibold">
+	<GymiiLink :to="to" class="hover:underline text-stone-700 font-semibold">
 		<slot />
-	</NuxtLink>
+	</GymiiLink>
 </template>
 
 <script lang="ts" setup>
