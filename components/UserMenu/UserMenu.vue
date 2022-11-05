@@ -13,8 +13,10 @@
 			`}
 		`">
 		<Icon class="mr-3 text-xl" name="ion:md-menu" />
-		<div class="flex flex-1 items-center justify-start">
-			{{ sessionStore.session.user?.name }}
+		<div class="flex flex-1 items-center justify-start overflow-hidden">
+			<div class="overflow-hidden whitespace-nowrap text-ellipsis">
+				{{ sessionStore.session.user?.name }}
+			</div>
 		</div>
 		<UserMenuNav v-if="navIsVisible" class="absolute top-full left-0" />
 	</div>
