@@ -19,6 +19,20 @@ export default class AuthService {
 		setCookie(event, 'session', authToken, {httpOnly: true});
 	}
 
+	static getCurrentUserId(event: H3Event): string | undefined {
+		const {JWT_SECRET} = useRuntimeConfig();
+
+		const authToken = getCookie(event, 'session');
+
+		if(!authToken) {
+			return undefined;
+		}
+
+		const {id} = JWT.verify(authToken, JWT_SECRET) as {id: string};
+
+		return id;
+	}
+
 	static async login(event: H3Event, {username, password}: SessionRequest): Promise<User> {
 		const user = await prisma.user.findFirst({ where: { username } });
 
@@ -37,27 +51,7 @@ export default class AuthService {
 		return user;
 	}
 
-	static async restoreSession(event: H3Event): Promise<User> {
-		const {JWT_SECRET} = useRuntimeConfig();
-
-		const authToken = getCookie(event, 'session');
-
-		if(!authToken) {
-			throw new UnauthorizedError('Not logged in');
-		}
-
-		const {id} = JWT.verify(authToken, JWT_SECRET) as {id: string};
-
-		const user = await prisma.user.findFirst({ where: { id } });
-
-		if(!user) {
-			throw new UnauthorizedError('Not logged in');
-		}
-
-		return user;
-	}
-
-	static async logout(event: H3Event): Promise<void> {
+	static logout(event: H3Event): void {
 		setCookie(event, 'session', undefined, {httpOnly: true});
 	}
 }

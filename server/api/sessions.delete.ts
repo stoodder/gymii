@@ -5,7 +5,7 @@ import { useCurrentUser } from "@/server/composables";
 export default defineEventHandler(async (event): Promise<ISessionResponse> => {
 	const currentUser = await useCurrentUser(event);
 
-	await AuthService.logout(event);
+	AuthService.logout(event);
 
 	return new SessionResponse({
 		user: new UserResponse(currentUser)

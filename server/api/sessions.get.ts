@@ -1,8 +1,8 @@
 import { SessionResponse, UserResponse, ISessionResponse } from "@/contracts";
-import { AuthService } from "@/server/services";
+import { useCurrentUser } from "@/server/composables";
 
 export default defineEventHandler(async (event): Promise<ISessionResponse> => {
-	const user = await AuthService.restoreSession(event);
+	const user = await useCurrentUser(event);
 
 	return new SessionResponse({
 		user: new UserResponse(user)
