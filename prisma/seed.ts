@@ -11,7 +11,7 @@ import * as bcrypt from 'bcrypt';
 			username: 'test',
 			email: 'test@test.com',
 			name: 'Test',
-			password: await bcrypt.hash('test', 10)
+			password: await bcrypt.hash('password', 10)
 		}});
 	} catch(e) {
 		console.error(e)

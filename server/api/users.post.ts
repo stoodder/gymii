@@ -2,9 +2,10 @@ import { UserResponse, IUserResponse, UserRequest, IUserRequest } from "@/contra
 import { AuthService } from "@/server/services";
 import prisma from "@/server/prisma";
 import { ValidationError } from "@/contracts/errors";
+import { defineEventHandler, readBody } from "h3";
 
 export default defineEventHandler(async (event): Promise<IUserResponse> => {
-	const data = await useBody<IUserRequest>(event);
+	const data = await readBody<IUserRequest>(event);
 	const request = new UserRequest(data);
 
 	await request.validate(['username', 'email', 'name', 'password']);

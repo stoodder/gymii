@@ -28,7 +28,18 @@ vi.mock('@prisma/client', () => {
 					return users.find(u => u.email === query.where.email);
 				}
 			}),
-		}
+			create: vi.fn(async (query): Promise<User> => {
+				const newUserIdIndex = users.filter(u => u.id.match(/^\$user-new-\d+$/)).length + 1;
+				const user = {
+					...query.data,
+					id: '$user-new-' + newUserIdIndex,
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				}
+				users.push(user);
+				return user;
+			})
+		},
 	}
 
 	return {

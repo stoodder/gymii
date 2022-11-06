@@ -20,15 +20,15 @@ const validations: RequestValidation<IUserRequest> = {
 		.required("Username is required")
 		.min(3, 'Username must be at least 3 characters')
 		.max(24, 'Username must be at most 24 characters')
-		.matches(/^[^\s].*[^\s]$/, 'Username must not start or end with whitespace')
 		.matches(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
 	email: Yup.string()
-		.email("Email is not a valid email address")
-		.required("Email is required"),
+		.required("Email is required")
+		.email("Email is not a valid email address"),
 	name: Yup.string()
 		.required("Name is required"),
 	password: Yup.string()
-		.required("Password is required"),
+		.required("Password is required")
+		.min(8, 'Password must be at least 8 characters'),
 	retypePassword: Yup.string()
 		.notRequired()
 		.oneOf([Yup.ref('password'), null], 'Passwords must match'),
@@ -59,10 +59,10 @@ implements IUserRequest {
 	}
 
 	get email(): string | undefined { return this._email; }
-	set email(value: string | undefined) { this._email = value?.trim().toLowerCase() || ""; }
+	set email(value: string | undefined) { this._email = value?.trim().toLowerCase(); }
 
 	get username(): string | undefined { return this._username; }
-	set username(value: string | undefined) { this._username = value?.trim().toLowerCase() || ""; }
+	set username(value: string | undefined) { this._username = value?.trim().toLowerCase(); }
 
 	async validate(subset: Array<keyof Partial<IUserRequest>> = undefined) {
 		return await super.executeValidations(validations, subset);
