@@ -17,12 +17,18 @@ export function createAuthCookieString(id: string): string {
 }
 
 export default async (apiRoute: string, eventFilePath: string): Promise<MockApi> => {
-	const app = createApp({onError: errorHandler});
-	const request = supertest(toNodeListener(app));
-	const eventHandler = (await import(eventFilePath)).default;
-	const reset = () => vi.clearAllMocks()
-
-	app.use(apiRoute, eventHandler);
-
-	return {app, request, eventHandler, reset}
+	try {
+		const app = createApp({onError: errorHandler});
+		const request = supertest(toNodeListener(app));
+		const importDef = await import(eventFilePath);
+		const eventHandler = importDef.default;
+		const reset = () => vi.clearAllMocks()
+	
+		app.use(apiRoute, eventHandler);
+	
+		return {app, request, eventHandler, reset}
+	} catch (e) {
+		console.error(e);
+		throw e;
+	}
 }
