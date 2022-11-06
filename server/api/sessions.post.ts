@@ -1,13 +1,18 @@
-import { SessionRequest, ISessionRequest, SessionResponse, ISessionResponse, UserResponse } from "@/contracts";
+import { SessionRequest, ISessionRequest, SessionResponse, ISessionResponse, UserResponse, UnauthorizedError } from "@/contracts";
 import { AuthService } from "@/server/services";
+import { defineEventHandler, readBody } from "h3";
 
 export default defineEventHandler(async (event): Promise<ISessionResponse> => {
-	const data = await useBody<ISessionRequest>(event);
+	const data = await readBody<ISessionRequest>(event);
 	const request = new SessionRequest(data);
 
 	await request.validate(['username', 'password']);
 
 	const user = await AuthService.login(event, request);
+
+	if(!user) {
+		throw new UnauthorizedError('Invalid credentials');
+	}
 
 	return new SessionResponse({
 		user: new UserResponse(user)

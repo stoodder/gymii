@@ -3,8 +3,8 @@ import { H3Event } from "h3";
 import JWT from "jsonwebtoken";
 import type { User } from "@/server/prisma"
 import prisma from "@/server/prisma";
-import { ValidationError, UnauthorizedError } from "@/contracts/errors";
-import { UserRequest, SessionRequest } from "@/contracts";
+import { SessionRequest } from "@/contracts";
+import { setCookie, getCookie } from "h3";
 
 export default class AuthService {
 	static encryptPassword(password: string): Promise<string> {
@@ -12,15 +12,15 @@ export default class AuthService {
 	}
 
 	static setAuthToken(event: H3Event, user: User): void {
-		const {JWT_SECRET} = useRuntimeConfig();
+		// const {JWT_SECRET} = useRuntimeConfig(); // TODO: Get this to work with vitest
 
-		const authToken = JWT.sign({id: user.id, salt: Math.random()}, JWT_SECRET, {expiresIn: '1d'});
+		const authToken = JWT.sign({id: user.id, salt: Math.random()}, process.env['JWT_SECRET'], {expiresIn: '1d'});
 
 		setCookie(event, 'session', authToken, {httpOnly: true});
 	}
 
 	static getCurrentUserId(event: H3Event): string | undefined {
-		const {JWT_SECRET} = useRuntimeConfig();
+		// const {JWT_SECRET} = useRuntimeConfig(); // TODO: Get this to work with vitest
 
 		const authToken = getCookie(event, 'session');
 
@@ -28,7 +28,7 @@ export default class AuthService {
 			return undefined;
 		}
 
-		const {id} = JWT.verify(authToken, JWT_SECRET) as {id: string};
+		const {id} = JWT.verify(authToken, process.env['JWT_SECRET']) as {id: string};
 
 		return id;
 	}
@@ -37,13 +37,13 @@ export default class AuthService {
 		const user = await prisma.user.findFirst({ where: { username } });
 
 		if(!user) {
-			throw new UnauthorizedError('Invalid credentials');
+			return undefined;
 		}
 
 		const isValidPassword = await bcrypt.compare(password, user.password);
 
 		if(!isValidPassword) {
-			throw new UnauthorizedError('Invalid credentials');
+			return undefined;
 		}
 
 		this.setAuthToken(event, user);

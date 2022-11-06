@@ -36,7 +36,7 @@ export default class ResponseError<T = any> extends Error implements IResponseEr
 	toJSON(): IResponseError<T> {
 		return {
 			statusCode: this.statusCode,
-			message: this.message,
+			message: this.message.length > 0 ? this.message : undefined,
 			errors: this.hasErrors ? this._errors : undefined
 		};
 	}

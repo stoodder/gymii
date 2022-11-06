@@ -79,7 +79,7 @@ export default defineStore<'SessionStore', State, Getters, Actions>('SessionStor
 
 				this.session = response.toModel();
 			} catch (error) {
-				console.log(error);
+
 			}
 		},
     async logout() {
