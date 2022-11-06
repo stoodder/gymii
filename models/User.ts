@@ -3,26 +3,24 @@ import { UserRequest } from '@/contracts';
 
 interface IUser {
 	id?: string;
-  email?: string;
-  name?: string;
+	email?: string;
+	name?: string;
 	username?: string;
 }
 
-export default class User
-extends BaseModel
-implements IUser {
+export default class User extends BaseModel implements IUser {
 	id?: string;
-  email?: string;
-  name?: string;
+	email?: string;
+	name?: string;
 	username?: string;
 
-  constructor(props: IUser = {}) {
-    super();
+	constructor(props: IUser = {}) {
+		super();
 		this.id = props.id;
 		this.email = props.email;
 		this.name = props.name;
 		this.username = props.username;
-  }
+	}
 
 	toRequest(): UserRequest {
 		return new UserRequest(this)

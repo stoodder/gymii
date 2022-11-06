@@ -2,9 +2,17 @@ import { AuthService } from "@/server/services";
 import { vi } from "vitest";
 import type { User } from "@prisma/client";
 
-Object.assign(process.env, {
-	JWT_SECRET: 'test',
-});
+require("dotenv").config();
+
+const users: User[] = [{
+	id: '$user-1',
+	username: 'test',
+	email: 'test@test.com',
+	name: 'test name',
+	password: await AuthService.encryptPassword('test'),
+	createdAt: new Date(),
+	updatedAt: new Date(),
+}]
 
 vi.mock('@prisma/client', () => {
 	const MockPrismaClient = vi.fn();
@@ -12,16 +20,12 @@ vi.mock('@prisma/client', () => {
 	MockPrismaClient.prototype = {
 		user: {
 			findFirst: vi.fn(async (query): Promise<User> => {
-				if(query.where?.username === 'test') {
-					return {
-						id: '1',
-						username: 'test',
-						email: 'test@test.com',
-						name: 'test name',
-						password: await AuthService.encryptPassword('test'),
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					}
+				if(query.where?.username) {
+					return users.find(u => u.username === query.where.username);
+				} else if(query.where?.id) {
+					return users.find(u => u.id === query.where.id);
+				} else if(query.where?.email) {
+					return users.find(u => u.email === query.where.email);
 				}
 			}),
 		}

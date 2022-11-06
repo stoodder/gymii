@@ -6,15 +6,25 @@ import prisma from "@/server/prisma";
 import { SessionRequest } from "@/contracts";
 import { setCookie, getCookie } from "h3";
 
+if(process.client) {
+	throw new Error("Not allowed to import AuthService on client");
+}
+
 export default class AuthService {
 	static encryptPassword(password: string): Promise<string> {
 		return bcrypt.hash(password, 10);
 	}
 
+	static createAuthToken(id: string): string {
+		// const {JWT_SECRET} = useRuntimeConfig(); // TODO: Get this to work with vitest
+		
+		return JWT.sign({id: id, salt: Math.random()}, process.env['JWT_SECRET'], {expiresIn: '1d'});
+	}
+
 	static setAuthToken(event: H3Event, user: User): void {
 		// const {JWT_SECRET} = useRuntimeConfig(); // TODO: Get this to work with vitest
 
-		const authToken = JWT.sign({id: user.id, salt: Math.random()}, process.env['JWT_SECRET'], {expiresIn: '1d'});
+		const authToken = this.createAuthToken(user.id);
 
 		setCookie(event, 'session', authToken, {httpOnly: true});
 	}
@@ -28,9 +38,14 @@ export default class AuthService {
 			return undefined;
 		}
 
-		const {id} = JWT.verify(authToken, process.env['JWT_SECRET']) as {id: string};
+		try {
+			const {id} = JWT.verify(authToken, process.env['JWT_SECRET']) as {id: string};
 
-		return id;
+			return id;
+		} catch (e) {
+			// TODO: Log error
+			return undefined;
+		}
 	}
 
 	static async login(event: H3Event, {username, password}: SessionRequest): Promise<User> {
@@ -52,6 +67,6 @@ export default class AuthService {
 	}
 
 	static logout(event: H3Event): void {
-		setCookie(event, 'session', undefined, {httpOnly: true});
+		setCookie(event, 'session', '', {httpOnly: true, expires: new Date(0)});
 	}
 }

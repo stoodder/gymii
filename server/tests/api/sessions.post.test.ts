@@ -1,7 +1,7 @@
 import { describe, test, beforeEach, afterEach, expect } from "vitest";
 import useMockApi, { MockApi } from '@/server/tests/mocks';
 
-describe("session.post", async () => {
+describe("sessions.post", async () => {
 	let mockApi: MockApi;
 
 	beforeEach(async () => {
@@ -49,9 +49,11 @@ describe("session.post", async () => {
 		await mockApi.request.post('/api/sessions')
 		.send({username: 'test', password: 'test'})
 		.expect(res => expect(res.headers['set-cookie']).toBeDefined())
+		.expect(res => expect(res.headers['set-cookie']).toMatch(/session=/))
+		.expect(res => expect(res.headers['set-cookie']).toMatch(/HttpOnly/))
 		.expect(200, {
 			user: {
-				id: '1',
+				id: '$user-1',
 				email: 'test@test.com',
 				username: 'test',
 				name: 'test name'
