@@ -1,5 +1,5 @@
 import { describe, test, beforeEach, afterEach, expect } from "vitest";
-import useMockApi, { MockApi } from './useMockApi'
+import useMockApi, { MockApi } from '@/server/tests/mocks';
 
 describe("session.post", async () => {
 	let mockApi: MockApi;
@@ -9,7 +9,7 @@ describe("session.post", async () => {
 	})
 
 	afterEach(() => {
-		mockApi.clearMocks();
+		mockApi.reset();
 	})
 
 	test("Expect validations errors", async () => {

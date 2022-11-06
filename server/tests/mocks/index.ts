@@ -2,22 +2,22 @@ import supertest, { SuperTest, Test } from 'supertest';
 import { createApp, toNodeListener, App, EventHandler } from 'h3';
 import errorHandler from '@/server/utils/errorHandler';
 import { vi } from "vitest";
-import "./mock";
+import "./setup";
 
 export type MockApi = {
 	app: App,
 	request: SuperTest<Test>,
 	eventHandler: EventHandler,
-	clearMocks: () => void,
+	reset: () => void,
 }
 
 export default async (apiRoute: string, eventFilePath: string): Promise<MockApi> => {
 	const app = createApp({onError: errorHandler});
 	const request = supertest(toNodeListener(app));
 	const eventHandler = (await import(eventFilePath)).default;
-	const clearMocks = () => vi.clearAllMocks()
+	const reset = () => vi.clearAllMocks()
 
 	app.use(apiRoute, eventHandler);
 
-	return {app, request, eventHandler, clearMocks}
+	return {app, request, eventHandler, reset}
 }
