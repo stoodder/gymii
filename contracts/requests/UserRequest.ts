@@ -25,7 +25,8 @@ const validations: RequestValidation<IUserRequest> = {
 		.required("Email is required")
 		.email("Email is not a valid email address"),
 	name: Yup.string()
-		.required("Name is required"),
+		.required("Name is required")
+		.min(1, 'Name is required'),
 	password: Yup.string()
 		.required("Password is required")
 		.min(8, 'Password must be at least 8 characters'),

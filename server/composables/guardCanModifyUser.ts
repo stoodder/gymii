@@ -4,7 +4,7 @@ import { NotAuthorizedError, NotFoundError } from "@/contracts/errors";
 
 export default async function guardCanModifyUser(currentUser: User, user: string | User) {
 	if(typeof user === 'string') {
-		user = await prisma.user.findUnique({
+		user = await prisma.user.findFirst({
 			where: {
 				id: user
 			}

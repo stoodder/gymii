@@ -12,7 +12,29 @@ const users: User[] = [{
 	password: await AuthService.encryptPassword('test'),
 	createdAt: new Date(),
 	updatedAt: new Date(),
+}, {
+	id: '$user-2',
+	username: 'test2',
+	email: 'test2@test.com',
+	name: 'test2 name',
+	password: await AuthService.encryptPassword('test'),
+	createdAt: new Date(),
+	updatedAt: new Date(),
 }]
+
+function userMatches(query, u) {
+	if(query.where?.NOT) {
+		if(query.where?.NOT.username && u.username === query.where.username) return false;
+		if(query.where?.NOT.username && u.id === query.where.id) return false;
+		if(query.where?.NOT.username && u.email === query.where.email) return false;
+	}
+
+	if(query.where?.username && u.username !== query.where.username) return false;
+	if(query.where?.id && u.id !== query.where.id) return false
+	if(query.where?.email && u.email !== query.where.email) return false;
+
+	return true;
+}
 
 vi.mock('@prisma/client', () => {
 	const MockPrismaClient = vi.fn();
@@ -20,25 +42,37 @@ vi.mock('@prisma/client', () => {
 	MockPrismaClient.prototype = {
 		user: {
 			findFirst: vi.fn(async (query): Promise<User> => {
-				if(query.where?.username) {
-					return users.find(u => u.username === query.where.username);
-				} else if(query.where?.id) {
-					return users.find(u => u.id === query.where.id);
-				} else if(query.where?.email) {
-					return users.find(u => u.email === query.where.email);
+				for(let u of users) {
+					if(userMatches(query, u)) {
+						return u;
+					}
 				}
 			}),
+
 			create: vi.fn(async (query): Promise<User> => {
-				const newUserIdIndex = users.filter(u => u.id.match(/^\$user-new-\d+$/)).length + 1;
 				const user = {
 					...query.data,
-					id: '$user-new-' + newUserIdIndex,
+					id: '$user-new-1',
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				}
-				users.push(user);
+				
 				return user;
-			})
+			}),
+
+			update: vi.fn(async (query): Promise<User> => {
+				const user = users.find(u => {
+					if(userMatches(query, u)) return u
+				})
+
+				if(user) {
+					return {
+						...user,
+						...query.data,
+						updatedAt: new Date()
+					} as User
+				}
+			}),
 		},
 	}
 
