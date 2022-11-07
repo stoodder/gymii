@@ -1,7 +1,7 @@
 import { describe, test, beforeEach, afterEach, expect } from "vitest";
 import useMockApi, { MockApi } from '@/server/tests/mocks';
 
-describe("users.post", async () => {
+describe("/api/users.post", async () => {
 	let mockApi: MockApi;
 
 	beforeEach(async () => {

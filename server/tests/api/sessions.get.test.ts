@@ -1,7 +1,7 @@
 import { describe, test, beforeEach, afterEach, expect } from "vitest";
 import useMockApi, { MockApi, createAuthCookieString } from '@/server/tests/mocks';
 
-describe("sessions.get", async () => {
+describe("/api/sessions.get", async () => {
 	let mockApi: MockApi;
 
 	beforeEach(async () => {

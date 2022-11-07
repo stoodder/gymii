@@ -1,7 +1,7 @@
 import { describe, test, beforeEach, afterEach, expect } from "vitest";
 import useMockApi, { MockApi, createAuthCookieString } from '@/server/tests/mocks';
 
-describe("users/[id].put", async () => {
+describe("/api/users/[id].put", async () => {
 	let mockApi: MockApi;
 	const id = '$user-1';
 
