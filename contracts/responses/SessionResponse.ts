@@ -1,5 +1,5 @@
 import BaseResponse from './BaseResponse';
-import UserResponse, { IUserResponse } from './UserResponse';
+import { UserResponse, IUserResponse } from '@/contracts/responses';
 import { Session } from '@/models';
 
 export interface ISessionResponse {

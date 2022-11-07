@@ -1,11 +1,11 @@
 import { ResponseError, IResponseError } from "@/contracts/errors";
+import { BaseRequest } from "@/contracts/requests";
 
 export interface IErrorResponse {
-	data: IResponseError;
+	data: IResponseError<any>;
 }
 
-export default class ErrorResponse
-implements IErrorResponse {
+export default class ErrorResponse implements IErrorResponse {
 	data: ResponseError
 
 	toJSON(): IErrorResponse {

@@ -1,7 +1,7 @@
-import type { RequestValidation } from "./types";
-import BaseRequest from "./BaseRequest";
-import { UserResponse } from "../responses";
 import * as Yup from 'yup';
+import type { RequestValidation } from "@/contracts/requests";
+import { BaseRequest } from "@/contracts/requests";
+import { UserResponse } from "@/contracts/responses";
 
 export interface IUserRequest {
 	id?: string;
@@ -35,19 +35,17 @@ const validations: RequestValidation<IUserRequest> = {
 		.oneOf([Yup.ref('password'), null], 'Passwords must match'),
 };
 
-export default class UserRequest
-extends BaseRequest<IUserRequest, UserResponse>
-implements IUserRequest {
+export default class UserRequest extends BaseRequest<IUserRequest, UserResponse> implements IUserRequest {
 	get?(): undefined;
 	patch?(): undefined;
 	delete?(): undefined;
 
-	id?: string;
-	_email?: string;
-	_username?: string;
-	name?: string;
-	password?: string;
-	retypePassword?: string;
+	public id?: string;
+	public _email?: string;
+	public _username?: string;
+	public name?: string;
+	public password?: string;
+	public retypePassword?: string;
 
 	constructor(props: IUserRequest = {}) {
 		super();

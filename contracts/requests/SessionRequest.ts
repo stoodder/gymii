@@ -1,6 +1,6 @@
-import type { RequestValidation } from "./types";
 import * as Yup from 'yup';
-import BaseRequest from "./BaseRequest";
+import type { RequestValidation } from "./types";
+import { BaseRequest } from "@/contracts/requests";
 import { SessionResponse } from "@/contracts/responses";
 
 export interface ISessionRequest {
@@ -19,14 +19,12 @@ const validations: RequestValidation<ISessionRequest> = {
 		.required("Password is required"),
 };
 
-export default class SessionRequest
-extends BaseRequest<ISessionRequest, SessionResponse>
-implements ISessionRequest {
+export default class SessionRequest extends BaseRequest<ISessionRequest, SessionResponse> implements ISessionRequest {
 	put?(): undefined
 	patch?(): undefined
 
-	username: string;
-	password: string;
+	public username: string;
+	public password: string;
 
 	constructor(props: ISessionRequest = {}) {
 		super();

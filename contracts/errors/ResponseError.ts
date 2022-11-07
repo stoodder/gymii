@@ -1,6 +1,6 @@
 import type { Errors } from "./types";
 
-interface IResponseError<T> {
+export interface IResponseError<T> {
 	message: string;
 	statusCode: number;
 	errors?: Errors<T>;

@@ -1,8 +1,13 @@
-import { UserResponse, IUserResponse, UserRequest, IUserRequest } from "@/contracts";
-import { AuthService } from "@/server/services";
 import prisma from "@/server/prisma";
-import { ValidationError } from "@/contracts/errors";
+import { AuthService } from "@/server/services";
 import { defineEventHandler, readBody } from "h3";
+import {
+	ValidationError,
+	UserResponse,
+	IUserResponse,
+	UserRequest,
+	IUserRequest
+} from "@/contracts";
 
 export default defineEventHandler(async (event): Promise<IUserResponse> => {
 	const data = await readBody<IUserRequest>(event);

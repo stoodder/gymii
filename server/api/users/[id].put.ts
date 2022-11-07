@@ -1,12 +1,12 @@
 import { UserResponse, IUserResponse, UserRequest, IUserRequest } from "@/contracts";
 import prisma from "@/server/prisma";
 import { ValidationError, BadRequestError } from "@/contracts/errors";
-import { useCurrentUser, guardCanModifyUser } from "@/server/composables";
+import { guardAuthenticated, guardCanModifyUser } from "~~/server/guards";
 import { defineEventHandler } from "h3";
 import { pickBody } from "@/server/utils";
 
 export default defineEventHandler(async (event): Promise<IUserResponse> => {
-	const currentUser = await useCurrentUser(event);
+	const currentUser = await guardAuthenticated(event);
 
 	await guardCanModifyUser(currentUser, event.context.params.id);
 

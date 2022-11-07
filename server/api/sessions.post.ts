@@ -1,6 +1,13 @@
-import { SessionRequest, ISessionRequest, SessionResponse, ISessionResponse, UserResponse, UnauthorizedError } from "@/contracts";
 import { AuthService } from "@/server/services";
 import { defineEventHandler, readBody } from "h3";
+import {
+	SessionRequest,
+	ISessionRequest,
+	SessionResponse,
+	ISessionResponse,
+	UserResponse,
+	UnauthorizedError
+} from "@/contracts";
 
 export default defineEventHandler(async (event): Promise<ISessionResponse> => {
 	const data = await readBody<ISessionRequest>(event);

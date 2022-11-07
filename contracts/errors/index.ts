@@ -5,3 +5,5 @@ export { default as NotFoundError } from './NotFoundError';
 export { default as ResponseError } from './ResponseError';
 export { default as UnauthorizedError } from './UnauthorizedError';
 export { default as ValidationError } from './ValidationError';
+
+export * from './ResponseError';

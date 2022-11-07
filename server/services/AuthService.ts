@@ -15,6 +15,10 @@ export default class AuthService {
 		return bcrypt.hash(password, 10);
 	}
 
+	static verifyPassword(user: User, password: string): Promise<boolean> {
+		return bcrypt.compare(password, user.password)
+	}
+
 	static createAuthToken(id: string): string {
 		// const {JWT_SECRET} = useRuntimeConfig(); // TODO: Get this to work with vitest
 		
@@ -55,9 +59,7 @@ export default class AuthService {
 			return undefined;
 		}
 
-		const isValidPassword = await bcrypt.compare(password, user.password);
-
-		if(!isValidPassword) {
+		if(!await this.verifyPassword(user, password)) {
 			return undefined;
 		}
 

@@ -4,7 +4,7 @@ import { UnauthorizedError } from "@/contracts/errors";
 import { AuthService } from "@/server/services";
 import prisma from "@/server/prisma";
 
-export default async function useCurrentUser(event: H3Event): Promise<User> {
+export default async function guardAuthenticated(event: H3Event): Promise<User> {
 	const id = AuthService.getCurrentUserId(event);
 
 	if(!id) {

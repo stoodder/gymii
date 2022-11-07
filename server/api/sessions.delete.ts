@@ -1,10 +1,14 @@
-import { SessionResponse, ISessionResponse, UserResponse } from "@/contracts";
 import { AuthService } from "@/server/services";
-import { useCurrentUser } from "@/server/composables";
+import { guardAuthenticated } from "@/server/guards";
 import { defineEventHandler } from "h3";
+import {
+	SessionResponse,
+	ISessionResponse,
+	UserResponse
+} from "@/contracts";
 
 export default defineEventHandler(async (event): Promise<ISessionResponse> => {
-	const currentUser = await useCurrentUser(event);
+	const currentUser = await guardAuthenticated(event);
 
 	AuthService.logout(event);
 

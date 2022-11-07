@@ -9,6 +9,8 @@ export * from './UserResponse';
 export { default as ErrorResponse } from './ErrorResponse';
 export * from './ErrorResponse';
 
+export * from './rpc';
+
 
 
 
