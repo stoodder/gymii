@@ -9,7 +9,7 @@ const users: User[] = [{
 	username: 'test',
 	email: 'test@test.com',
 	name: 'test name',
-	password: await AuthService.encryptPassword('test'),
+	password: await AuthService.encryptPassword('password'),
 	createdAt: new Date(),
 	updatedAt: new Date(),
 }, {
@@ -17,7 +17,7 @@ const users: User[] = [{
 	username: 'test2',
 	email: 'test2@test.com',
 	name: 'test2 name',
-	password: await AuthService.encryptPassword('test'),
+	password: await AuthService.encryptPassword('password'),
 	createdAt: new Date(),
 	updatedAt: new Date(),
 }]

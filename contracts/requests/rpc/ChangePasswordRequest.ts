@@ -15,7 +15,7 @@ const validations: RequestValidation<IChangePasswordRequest> = {
 	newPassword: Yup.string()
 		.required("New password is required")
 		.min(8, 'Password must be at least 8 characters')
-		.oneOf([Yup.ref('password'), null], 'New password cannot be the same as the current password'),
+		.notOneOf([Yup.ref('password'), null], 'New password must be different'),
 	retypePassword: Yup.string()
 		.notRequired()
 		.oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),

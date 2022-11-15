@@ -47,7 +47,7 @@ describe("/api/sessions.post", async () => {
 
 	test("Expect login to succeed with expected response", async () => {
 		await mockApi.request.post('/api/sessions')
-		.send({username: 'test', password: 'test'})
+		.send({username: 'test', password: 'password'})
 		.expect(res => expect(res.headers['set-cookie']).toBeDefined())
 		.expect(res => expect(res.headers['set-cookie']).toMatch(/session=/))
 		.expect(res => expect(res.headers['set-cookie']).toMatch(/HttpOnly/))
