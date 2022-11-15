@@ -15,9 +15,9 @@ const validations: RequestValidation<IChangePasswordRequest> = {
 	newPassword: Yup.string()
 		.required("New password is required")
 		.min(8, 'Password must be at least 8 characters')
-		.notOneOf([Yup.ref('password'), null], 'New password must be different'),
+		.notOneOf([Yup.ref('password')], 'New password must be different'),
 	retypePassword: Yup.string()
-		.notRequired()
+		.required("Retype password is required")
 		.oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
 };
 
@@ -47,7 +47,7 @@ export default class ChangePasswordRequest extends BaseRequest<IChangePasswordRe
 		await this.validate(['password', 'newPassword', 'retypePassword']);
 
 		const data = await super.fetch("/api/rpc/change-password", {
-			method: "PUT",
+			method: "POST",
 			body: this.serialize(['password', 'newPassword'])
 		});
 
