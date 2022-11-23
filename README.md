@@ -1,6 +1,6 @@
 # Gymii
 
-Gymii is a simple calorie and strength tracker to help individuals reach their diet and weight lifting goals. Still a work in progress, the ultimate goal is to allow individuals to self-host their own health and wellness data on their local computers or home-server Bitcoin node in order to-obtain control of their personal health data.
+Gymii is a simple calorie and strength tracker to help individuals reach their diet and weight lifting goals. Still a work in progress, the ultimate goal is to allow individuals to self-host their own health and wellness data on their local computers or home-server Bitcoin node in order to retain control of their personal health data.
 
 ## Local Development
 
