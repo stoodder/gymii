@@ -52,6 +52,7 @@ WIP
 ## TODO:
 
 - [ ] Utilize Docker to run app in order to deploy later to [Umbrel](https://umbrel.com/), [Embassy](https://start9.com/), etc.
+- [ ] Move testing fixture setup from `server/tests/mocks/setup.ts` in to organized `server/tests/mocks/fixtures`
 
 
 Icons: https://icones.js.org/collection/ion?s=power
